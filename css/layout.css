@@ -61,9 +61,17 @@
 
 /* Main Content Area */
 .main-content {
-    flex-grow: 1; /* Allow main content to take remaining space */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
+    padding-top: 80px; /* Adjust this value if your navbar height changes */
+    /* Existing padding-left/right/bottom will be handled by .content-section */
+}
+
+/* Ensure the .content-section also has necessary padding if not already */
+.content-section {
+    padding: 30px; /* Retain padding within content */
+    flex-grow: 1;
 }
 
 /* Navbar (Top Bar) */
