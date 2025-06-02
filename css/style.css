@@ -20,98 +20,154 @@
 
 body {
     font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    margin: 0; /* Important for fixed elements */
-    padding: 0; /* Important for fixed elements */
+    margin: 0;
+    padding: 0;
     background-color: var(--light-bg);
     color: var(--text-color);
     line-height: 1.6;
-    display: flex; /* For admin-wrapper */
-    min-height: 100vh; /* Ensure full height */
+    display: flex; /* For admin-wrapper to occupy full height */
+    min-height: 100vh; /* Ensure full viewport height */
+    flex-direction: column; /* Allows main content to push footer down within body */
 }
 
-/* Login Page Specific Styles */
-.login-page {
+/* Admin Wrapper Layout (Sidebar + Main Content) */
+.admin-wrapper {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to right, var(--primary-color), #0056b3); /* Gradient background */
-}
-
-.login-container {
-    background-color: var(--card-bg);
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     width: 100%;
-    max-width: 400px;
+    flex-grow: 1; /* Allows it to take remaining height within body */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: var(--sidebar-bg);
+    color: var(--sidebar-text);
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+    transition: width 0.3s ease, transform 0.3s ease; /* Added transform for mobile slide */
+}
+
+.sidebar-header {
     text-align: center;
-}
-
-.login-logo {
-    max-width: 120px;
-    margin-bottom: 20px;
-}
-
-.login-header h1 {
-    color: var(--primary-color);
     margin-bottom: 30px;
-    font-size: 2em;
+    padding: 0 15px;
+    position: relative; /* Needed for absolute positioning of close button */
 }
 
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
+.sidebar-logo {
+    max-width: 80px;
+    margin-bottom: 10px;
+    border-radius: 50%; /* If your logo is circular */
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: var(--text-color);
+.sidebar-header h2 {
+    color: white;
+    font-size: 1.5em;
+    margin: 0;
 }
 
-.form-group input[type="text"],
-.form-group input[type="password"] {
-    width: calc(100% - 20px); /* Adjust for padding */
-    padding: 12px 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 1em;
-    transition: border-color 0.3s ease;
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.form-group input:focus {
-    border-color: var(--primary-color);
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+.main-nav li a {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: var(--sidebar-text);
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.form-options {
+.main-nav li a:hover,
+.main-nav li.active a {
+    background-color: var(--sidebar-hover);
+    color: white;
+}
+
+.main-nav li a i {
+    margin-right: 15px;
+    font-size: 1.1em;
+}
+
+/* Main Content Area */
+.main-content {
+    flex-grow: 1; /* Allows it to take remaining space */
+    display: flex;
+    flex-direction: column;
+    padding-top: 80px; /* IMPORTANT: This pushes content down from under the fixed navbar */
+    position: relative; /* If you need z-index for content within main, though not strictly needed here */
+}
+
+/* Navbar (Top Bar) */
+.navbar {
+    background-color: var(--navbar-bg);
+    padding: 20px 30px;
+    box-shadow: var(--shadow);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
-    font-size: 0.9em;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+
+    position: fixed; /* Makes it stick to the viewport */
+    top: 0;          /* Positions it at the very top */
+    left: 0;         /* Positions it at the very left */
+    width: 100%;     /* Ensures it spans the full width */
+    z-index: 999;    /* Makes sure it's above other content */
 }
 
-.form-options label {
+.navbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-left h1 {
     margin: 0;
+    font-size: 1.8em;
     color: var(--text-color);
 }
 
-.form-options .forgot-password {
-    color: var(--primary-color);
-    text-decoration: none;
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-.form-options .forgot-password:hover {
-    text-decoration: underline;
+.navbar-right span {
+    font-weight: 500;
+    color: var(--text-color);
 }
 
-.login-footer {
-    margin-top: 30px;
-    font-size: 0.8em;
+.menu-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-right: 20px;
+    /* Default display: block for desktop/tablet (to collapse sidebar) */
+    display: block;
+}
+
+/* Content Sections */
+.content-section {
+    padding: 30px;
+    flex-grow: 1; /* Allow content to push footer down */
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: auto; /* Push footer to the bottom */
+    background-color: var(--navbar-bg);
+    border-top: 1px solid var(--border-color);
     color: var(--secondary-color);
+    font-size: 0.9em;
 }
 
 /* Buttons */
@@ -225,7 +281,6 @@ body {
     color: var(--danger-color);
     font-weight: bold;
 }
-
 
 /* Toolbar for lists */
 .toolbar {
@@ -378,15 +433,158 @@ body {
     z-index: 1001; /* Ensure it's above other sidebar content */
 }
 
-/* Media query to show the close button only on mobile */
+/* Responsive Design (Consolidated and Corrected) */
+
+/* Admin Wrapper: When sidebar is collapsed (desktop/tablet) */
+.admin-wrapper.collapsed .sidebar {
+    width: 60px; /* Collapsed state */
+}
+.admin-wrapper.collapsed .sidebar .sidebar-header h2,
+.admin-wrapper.collapsed .sidebar .main-nav li a span {
+    display: none; /* Hide text labels */
+}
+.admin-wrapper.collapsed .sidebar .main-nav li a {
+    justify-content: center; /* Center icons */
+    padding: 15px 0;
+}
+.admin-wrapper.collapsed .sidebar .main-nav li a i {
+    margin-right: 0;
+}
+/* Ensure menu-toggle is always visible for desktop/tablet collapse */
+.admin-wrapper .menu-toggle {
+    display: block; /* Always visible for toggling on larger screens */
+}
+
+
+/* Tablet/Smaller Desktop Breakpoint */
+@media (max-width: 992px) {
+    /* No major changes needed here, as the .collapsed rules handle desktop collapse */
+    /* If you want the sidebar to start collapsed on tablets, you'd add 'collapsed' class to admin-wrapper by default via JS for this breakpoint */
+}
+
+/* Mobile Devices (e.g., tablets in portrait, phones) */
 @media (max-width: 768px) {
-    .close-sidebar-btn {
-        display: block; /* Show the button on small screens */
+    .login-container {
+        padding: 30px;
+        margin: 20px; /* Smaller margin for mobile */
     }
-    /* Adjust sidebar header if necessary to make space for the button */
+    .navbar {
+        flex-direction: column; /* Stack navbar items */
+        align-items: flex-start;
+        gap: 10px;
+        padding: 15px 20px;
+    }
+    .navbar-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    /* Mobile-specific sidebar behavior: Overlay */
+    .admin-wrapper {
+        flex-direction: column; /* Stack sidebar and main content vertically for layout */
+    }
+
+    .sidebar {
+        width: 250px; /* Full width for overlay, or specific mobile width */
+        height: 100vh; /* Full viewport height */
+        padding: 15px 0;
+        position: fixed; /* Fixed position for overlay */
+        left: 0;
+        top: 0;
+        z-index: 1000; /* Ensure it's on top */
+        transform: translateX(-100%); /* Hide off-screen initially */
+        transition: transform 0.3s ease-in-out;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Add shadow for overlay effect */
+    }
+    .admin-wrapper.sidebar-open .sidebar {
+        transform: translateX(0); /* Slide in when open */
+    }
+    /* Hide desktop-collapse elements when sidebar is in mobile overlay mode */
+    .sidebar .sidebar-header h2,
+    .sidebar .main-nav li a span {
+        display: block; /* Always show title and text labels for mobile overlay */
+    }
+    .sidebar .main-nav li a {
+        justify-content: flex-start;
+        padding: 15px 20px;
+    }
+    .sidebar .main-nav li a i {
+        margin-right: 15px;
+    }
+    .sidebar .sidebar-logo {
+        max-width: 80px; /* Keep consistent with desktop or adjust as needed */
+    }
+
+    /* Show the close button on mobile */
+    .close-sidebar-btn {
+        display: block;
+    }
     .sidebar .sidebar-header {
-        position: relative; /* Needed for absolute positioning of button */
         padding-right: 50px; /* Make space for the button */
+    }
+
+    .main-content {
+        width: 100%; /* Take full width */
+        padding-top: 80px; /* Keep padding for fixed navbar */
+        /* Potentially add 'overflow-x: hidden;' to body/html to prevent horizontal scroll from sidebar */
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch; /* Stretch items to full width */
+        padding: 15px;
+    }
+    .search-filter {
+        flex-direction: column;
+        width: 100%;
+    }
+    .search-filter input,
+    .search-filter select {
+        width: calc(100% - 20px); /* Account for padding */
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .btn {
+        width: 100%; /* Full width buttons on mobile */
+        margin-bottom: 10px;
+    }
+    .card-grid {
+        grid-template-columns: 1fr; /* Stack cards vertically */
+        gap: 15px;
+    }
+    .data-table {
+        display: block; /* Allow table to scroll horizontally */
+        overflow-x: auto; /* Enable horizontal scrolling */
+        white-space: nowrap; /* Prevent content from wrapping */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    }
+    .data-table th, .data-table td {
+        min-width: 120px; /* Ensure columns have a minimum width */
+    }
+
+    /* Adjust menu-toggle for mobile: always visible but for sidebar-open */
+    .menu-toggle {
+        display: block;
     }
 }
 
+/* Smaller mobile devices */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 20px;
+    }
+    .card {
+        padding: 15px;
+    }
+    .navbar-left h1 {
+        font-size: 1.5em;
+    }
+    .navbar-right span {
+        display: none; /* Hide welcome text on very small screens */
+    }
+    .tab-btn {
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+    }
+    g
