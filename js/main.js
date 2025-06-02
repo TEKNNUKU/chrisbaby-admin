@@ -2,11 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Sidebar Toggle ---
     const menuToggle = document.querySelector('.menu-toggle');
     const adminWrapper = document.querySelector('.admin-wrapper');
+    const sidebar = document.querySelector('.sidebar'); // Get the sidebar element
 
-    if (menuToggle && adminWrapper) {
+    if (menuToggle && adminWrapper && sidebar) { // Check for sidebar element as well
         menuToggle.addEventListener('click', () => {
-            adminWrapper.classList.toggle('collapsed');
+            adminWrapper.classList.toggle('collapsed'); // For desktop/tablet (icon-only sidebar)
+            adminWrapper.classList.toggle('sidebar-open'); // For mobile (slide-out sidebar)
         });
+        // Optional: Close sidebar if clicked outside (for mobile overlay)
+        // You might need a transparent overlay div for better UX
+        // sidebar.addEventListener('click', (event) => {
+        //     if (event.target === sidebar && adminWrapper.classList.contains('sidebar-open')) {
+        //         adminWrapper.classList.remove('sidebar-open');
+        //     }
+        // });
     }
 
     // --- Tab Switching (for payments-invoices.html) ---
