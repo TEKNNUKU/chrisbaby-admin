@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees Management - Chris-Baby SAS Ltd.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="images/chrisbaby-logo.png" alt="Chris-Baby SAS Ltd. Logo" class="sidebar-logo">
+                <h2>Chris-Baby Admin</h2>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li class="active"><a href="employees.html"><i class="fas fa-users"></i> Employees Management</a></li>
+                    <li><a href="#"><i class="fas fa-handshake"></i> Clients Management</a></li>
+                    <li><a href="#"><i class="fas fa-truck"></i> Vendors Management</a></li>
+                    <li><a href="payments-invoices.html"><i class="fas fa-file-invoice"></i> Payments & Invoices</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Pension Contributions</a></li>
+                    <li><a href="#"><i class="fas fa-calculator"></i> Tax Management</a></li>
+                    <li><a href="#"><i class="fas fa-heartbeat"></i> Medical & Insurance</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="navbar">
+                <div class="navbar-left">
+                    <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                    <h1>Employees Management</h1>
+                </div>
+                <div class="navbar-right">
+                    <span>Welcome, Admin Name</span>
+                    <a href="index.html" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </header>
+
+            <section class="content-section">
+                <div class="toolbar">
+                    <div class="search-filter">
+                        <input type="text" placeholder="Search employees..." class="search-input">
+                        <select class="filter-select">
+                            <option value="">All Locations</option>
+                            <option value="PH">Port Harcourt</option>
+                            <option value="OW">Owerri</option>
+                            <option value="AB">Aba</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary"><i class="fas fa-user-plus"></i> Add New Employee</button>
+                </div>
+
+                <div class="card">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>RSA PIN</th>
+                                <th>Role</th>
+                                <th>Location</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>CHIGBU LIGHT UDOCHUKWU</td>
+                                <td>PEN11015405987</td>
+                                <td>Guard</td>
+                                <td>Port Harcourt</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
+                                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>OGUEGBU OKWUCHUKWU PATRICI</td>
+                                <td>PEN11018296884</td>
+                                <td>Guard</td>
+                                <td>Owerri</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
+                                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>CHINEDU CURTIS CHIBUISI</td>
+                                <td>PEN11013243178</td>
+                                <td>Guard</td>
+                                <td>Aba</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
+                                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>NKWACHUKWU PRECIOUS NKWAC</td>
+                                <td>PEN11019237665</td>
+                                <td>Supervisor</td>
+                                <td>Port Harcourt</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
+                                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>NWAOKONKO ACHILIKE SAMUEL</td>
+                                <td>PEN11012912922</td>
+                                <td>Guard</td>
+                                <td>Owerri</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
+                                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Delete</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <footer>
+                <p>&copy; 2025 Chris-Baby SAS Ltd. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
