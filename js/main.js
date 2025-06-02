@@ -3,30 +3,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuToggle = document.querySelector('.menu-toggle');
     const adminWrapper = document.querySelector('.admin-wrapper');
     const sidebar = document.querySelector('.sidebar');
-    const closeSidebarBtn = document.querySelector('.close-sidebar-btn'); // Get the close button
+    const closeSidebarBtn = document.querySelector('.close-sidebar-btn');
 
+    // Logic for the main menu toggle button (in the navbar)
     if (menuToggle && adminWrapper && sidebar) {
         menuToggle.addEventListener('click', () => {
             // For desktop/tablet (icon-only sidebar toggle)
-            adminWrapper.classList.toggle('collapsed');
-            // For mobile (slide-out sidebar toggle)
-            adminWrapper.classList.toggle('sidebar-open');
+            // This is primarily for larger screens where sidebar collapses/expands
+            if (window.innerWidth > 768) { // Only toggle 'collapsed' on larger screens
+                adminWrapper.classList.toggle('collapsed');
+            } else { // On smaller screens, toggle 'sidebar-open' for the overlay
+                adminWrapper.classList.toggle('sidebar-open');
+            }
         });
+    }
 
-        // ADD THIS FOR THE CLOSE BUTTON
-        if (closeSidebarBtn) {
-            closeSidebarBtn.addEventListener('click', () => {
-                adminWrapper.classList.remove('sidebar-open'); // Close the mobile sidebar
-            });
-        }
+    // Logic for the close button inside the sidebar (primarily for mobile)
+    if (closeSidebarBtn && adminWrapper) {
+        closeSidebarBtn.addEventListener('click', () => {
+            adminWrapper.classList.remove('sidebar-open'); // Close the mobile sidebar overlay
+            // If you want it to also 'un-collapse' if it was collapsed on desktop and then closed on mobile, uncomment:
+            // adminWrapper.classList.remove('collapsed');
+        });
+    }
 
-        // Optional: Close sidebar if an item is clicked (for mobile UX)
-        const navLinks = document.querySelectorAll('.main-nav a');
+    // Optional: Close sidebar if a navigation item is clicked (good for mobile UX)
+    const navLinks = document.querySelectorAll('.main-nav a');
+    if (navLinks.length > 0 && adminWrapper) {
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
+                // If the mobile sidebar is open, close it after a link click
                 if (adminWrapper.classList.contains('sidebar-open')) {
-                    adminWrapper.classList.remove('sidebar-open'); // Close sidebar after clicking a link on mobile
+                    adminWrapper.classList.remove('sidebar-open');
                 }
+                // If sidebar is collapsed on desktop, you might want to keep it collapsed,
+                // or expand it based on your desired UX. No change needed here for now.
             });
         });
     }
@@ -47,15 +58,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Show the corresponding content
                 const targetTab = button.dataset.tab;
-                document.getElementById(targetTab).style.display = 'block';
+                const targetElement = document.getElementById(targetTab);
+                if (targetElement) { // Ensure the target element exists
+                    targetElement.style.display = 'block';
+                }
             });
         });
+
+        // Set initial active tab on page load if needed (already handled by HTML 'active' class)
+        // You can uncomment and modify this if you want to dynamically set the first tab
+        // const initialActiveTab = document.querySelector('.tab-btn.active');
+        // if (initialActiveTab) {
+        //     const targetTab = initialActiveTab.dataset.tab;
+        //     const targetElement = document.getElementById(targetTab);
+        //     if (targetElement) {
+        //         targetElement.style.display = 'block';
+        //     }
+        // }
     }
-});
-
-
-
-
-    // --- Tab Switching (for payments-invoices.html) ---
-    // ... existing tab switching code ...
 });
