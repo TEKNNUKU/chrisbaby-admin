@@ -364,3 +364,29 @@ body {
 .tab-content {
     padding-top: 10px;
 }
+
+.close-sidebar-btn {
+    background: none;
+    border: none;
+    color: var(--sidebar-text); /* Or white */
+    font-size: 1.8em; /* Larger icon for easy tap */
+    cursor: pointer;
+    position: absolute; /* Position it absolutely within sidebar-header */
+    top: 15px;
+    right: 15px;
+    display: none; /* Hidden by default, only show on mobile */
+    z-index: 1001; /* Ensure it's above other sidebar content */
+}
+
+/* Media query to show the close button only on mobile */
+@media (max-width: 768px) {
+    .close-sidebar-btn {
+        display: block; /* Show the button on small screens */
+    }
+    /* Adjust sidebar header if necessary to make space for the button */
+    .sidebar .sidebar-header {
+        position: relative; /* Needed for absolute positioning of button */
+        padding-right: 50px; /* Make space for the button */
+    }
+}
+
