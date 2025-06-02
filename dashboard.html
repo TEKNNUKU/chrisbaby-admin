@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Chris-Baby SAS Ltd.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="images/chrisbaby-logo.png" alt="Chris-Baby SAS Ltd. Logo" class="sidebar-logo">
+                <h2>Chris-Baby Admin</h2>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li class="active"><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                    <li><a href="employees.html"><i class="fas fa-users"></i> Employees Management</a></li>
+                    <li><a href="#"><i class="fas fa-handshake"></i> Clients Management</a></li>
+                    <li><a href="#"><i class="fas fa-truck"></i> Vendors Management</a></li>
+                    <li><a href="payments-invoices.html"><i class="fas fa-file-invoice"></i> Payments & Invoices</a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> Pension Contributions</a></li>
+                    <li><a href="#"><i class="fas fa-calculator"></i> Tax Management</a></li>
+                    <li><a href="#"><i class="fas fa-heartbeat"></i> Medical & Insurance</a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="navbar">
+                <div class="navbar-left">
+                    <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="navbar-right">
+                    <span>Welcome, Admin Name</span>
+                    <a href="index.html" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </header>
+
+            <section class="dashboard-overview">
+                <div class="card-grid">
+                    <div class="card overview-card">
+                        <div class="card-icon"><i class="fas fa-users"></i></div>
+                        <div class="card-content">
+                            <h3>Total Employees</h3>
+                            <p class="metric">22</p>
+                        </div>
+                    </div>
+                    <div class="card overview-card">
+                        <div class="card-icon"><i class="fas fa-file-invoice"></i></div>
+                        <div class="card-content">
+                            <h3>Pending Invoices</h3>
+                            <p class="metric">3</p>
+                        </div>
+                    </div>
+                    <div class="card overview-card">
+                        <div class="card-icon"><i class="fas fa-coins"></i></div>
+                        <div class="card-content">
+                            <h3>Total Contributions</h3>
+                            <p class="metric">₦113,040.00</p>
+                        </div>
+                    </div>
+                    <div class="card overview-card">
+                        <div class="card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="card-content">
+                            <h3>Active Locations</h3>
+                            <p class="metric">5</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="recent-activities">
+                <h2>Recent Activities</h2>
+                <div class="card">
+                    <ul>
+                        <li><i class="fas fa-check-circle activity-icon"></i> New employee "John Doe" added. (2 mins ago)</li>
+                        <li><i class="fas fa-file-upload activity-icon"></i> Invoice INV-2025-001 created for "The Church of Jesus Christ". (1 hour ago)</li>
+                        <li><i class="fas fa-dollar-sign activity-icon"></i> Payment received for INV-2025-003. (3 hours ago)</li>
+                        <li><i class="fas fa-edit activity-icon"></i> Employee "Jane Smith" details updated. (Yesterday)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="quick-links">
+                <h2>Quick Links</h2>
+                <div class="card-grid">
+                    <a href="employees.html" class="card quick-link-card">
+                        <i class="fas fa-user-plus"></i> Add New Employee
+                    </a>
+                    <a href="payments-invoices.html" class="card quick-link-card">
+                        <i class="fas fa-plus-square"></i> Create New Invoice
+                    </a>
+                    <a href="#" class="card quick-link-card">
+                        <i class="fas fa-book"></i> View Reports
+                    </a>
+                </div>
+            </section>
+
+            <footer>
+                <p>&copy; 2025 Chris-Baby SAS Ltd. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
