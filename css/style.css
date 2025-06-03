@@ -1,567 +1,840 @@
-/* General Body and Root Variables */
+/* style.css */
+
+/* --- Base Styles --- */
 :root {
-    --primary-color: #007bff; /* A nice blue */
-    --secondary-color: #6c757d; /* Gray for secondary actions */
-    --success-color: #28a745;
-    --info-color: #17a2b8;
-    --warning-color: #ffc107;
-    --danger-color: #dc3545;
-    --text-color: #343a40;
-    --light-bg: #f8f9fa;
-    --dark-bg: #343a40;
-    --card-bg: #ffffff;
+    --primary-color: #007bff; /* Blue */
+    --secondary-color: #6c757d; /* Gray */
+    --accent-color: #28a745; /* Green for success/add */
+    --danger-color: #dc3545; /* Red for danger/delete */
+    --warning-color: #ffc107; /* Yellow for warning/edit */
+    --info-color: #17a2b8; /* Cyan for info/view */
+    --text-color: #333;
+    --light-text-color: #f8f9fa;
     --border-color: #dee2e6;
-    --sidebar-bg: #222d32; /* Darker for sidebar */
-    --sidebar-text: #b8c7ce;
-    --sidebar-hover: #1e282c;
+    --background-color: #f4f7f6; /* Light gray background */
+    --sidebar-bg: #2b3e50; /* Dark blue-gray */
     --navbar-bg: #ffffff;
-    --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    --sidebar-width: 250px; /* Define default sidebar width as a variable */
-    --sidebar-collapsed-width: 60px; /* Define collapsed sidebar width */
+    --card-bg: #ffffff;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --sidebar-width: 250px;
+    --sidebar-collapsed-width: 80px; /* Width when collapsed */
+    --navbar-height: 60px; /* Consistent navbar height */
+    --spacing-unit: 1rem; /* 16px */
 }
 
-html, body {
+* {
     margin: 0;
     padding: 0;
-    height: 100%; /* Ensure html and body take full height */
-    overflow-x: hidden; /* Prevent horizontal scroll from accidental content overflow */
+    box-sizing: border-box;
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background-color: var(--light-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text-color);
+    background-color: var(--background-color);
     line-height: 1.6;
-    display: flex; /* Flex container for admin-wrapper to take full height */
-    flex-direction: column;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Admin Wrapper Layout */
+a {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+ul {
+    list-style: none;
+}
+
+/* --- Layout: Admin Wrapper --- */
 .admin-wrapper {
     display: flex;
-    flex-grow: 1; /* Allows it to take remaining height within body */
-    width: 100%;
-    /* No transition for margin-left here, it will be on main-content */
+    min-height: 100vh;
 }
 
-/* Sidebar */
+/* --- Sidebar --- */
 .sidebar {
-    width: var(--sidebar-width); /* Default desktop width */
+    width: var(--sidebar-width);
     background-color: var(--sidebar-bg);
-    color: var(--sidebar-text);
-    padding: 20px 0;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    flex-shrink: 0; /* Prevent sidebar from shrinking */
-    transition: width 0.3s ease, transform 0.3s ease; /* For collapse and mobile slide */
-    overflow-y: auto; /* Enable vertical scrolling within the sidebar if content overflows */
-    position: relative; /* Context for children */
-    z-index: 100; /* Ensure sidebar is above main content */
+    color: var(--light-text-color);
+    padding: var(--spacing-unit);
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* Fixed position */
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    transition: width 0.3s ease-in-out, transform 0.3s ease-in-out; /* Add transform for mobile */
+    overflow-y: auto; /* Enable scrolling for long menus */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari, Opera */
+.sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar.collapsed {
+    width: var(--sidebar-collapsed-width);
 }
 
 .sidebar-header {
-    text-align: center;
-    margin-bottom: 30px;
-    padding: 0 15px;
-    position: relative; /* Needed for absolute positioning of close button */
-    padding-right: 50px; /* Space for close button on mobile, if it's there */
+    display: flex;
+    align-items: center;
+    padding-bottom: var(--spacing-unit);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    position: relative; /* For close button positioning */
 }
 
 .sidebar-logo {
-    max-width: 80px;
-    margin-bottom: 10px;
-    border-radius: 50%; /* If your logo is circular */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: var(--spacing-unit);
+    object-fit: cover;
 }
 
-.sidebar-header h2 {
-    color: white;
-    font-size: 1.5em;
-    margin: 0;
-    transition: opacity 0.3s ease; /* For hiding text when collapsed */
+.sidebar h2 {
+    font-size: 1.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity 0.3s ease-in-out;
 }
 
+.sidebar.collapsed .sidebar-header h2 {
+    opacity: 0;
+    width: 0;
+    margin-right: 0;
+}
+
+/* Sidebar navigation */
 .main-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* Space between nav items */
 }
 
 .main-nav li a {
     display: flex;
     align-items: center;
-    padding: 15px 20px;
-    color: var(--sidebar-text);
-    text-decoration: none;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    white-space: nowrap; /* Prevent text wrapping */
-    overflow: hidden; /* Hide overflow when collapsed */
+    color: var(--light-text-color);
+    padding: 0.75rem var(--spacing-unit);
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 }
 
 .main-nav li a:hover,
 .main-nav li.active a {
-    background-color: var(--sidebar-hover);
-    color: white;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: var(--light-text-color);
 }
 
 .main-nav li a i {
-    margin-right: 15px;
-    font-size: 1.1em;
-    flex-shrink: 0; /* Prevent icon from shrinking */
+    font-size: 1.2rem;
+    margin-right: calc(var(--spacing-unit) * 0.75);
+    width: 25px; /* Fixed width for icons to prevent text jump */
+    text-align: center;
 }
 
 .main-nav li a span {
-    transition: opacity 0.3s ease; /* For hiding text when collapsed */
+    white-space: nowrap;
+    overflow: hidden;
+    transition: opacity 0.3s ease-in-out;
+    flex-grow: 1; /* Allows span to take available space */
 }
 
-/* Main Content Area */
+.sidebar.collapsed .main-nav li a span {
+    opacity: 0;
+    width: 0;
+}
+
+/* Mobile Close Button for Sidebar */
+.close-sidebar-btn {
+    display: none; /* Hidden by default, shown in mobile media query */
+    background: none;
+    border: none;
+    color: var(--light-text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    padding: 5px;
+}
+
+
+/* --- Main Content Area --- */
 .main-content {
-    flex-grow: 1; /* Allows it to take remaining space */
+    flex-grow: 1;
+    margin-left: var(--sidebar-width); /* Default margin for expanded sidebar */
+    transition: margin-left 0.3s ease-in-out;
     display: flex;
-    flex-direction: column;
-    position: relative; /* For content-section padding relative to navbar */
-    margin-left: var(--sidebar-width); /* Pushed by default sidebar width */
-    transition: margin-left 0.3s ease; /* Smooth transition for margin */
+    flex-direction: column; /* To stack header, content, and footer */
+    min-height: 100vh; /* Ensure it takes full height */
 }
 
-/* Navbar (Top Bar) - Desktop Layout */
+.main-content.shifted {
+    margin-left: var(--sidebar-collapsed-width); /* Margin for collapsed sidebar */
+}
+
+/* --- Navbar (Header) --- */
 .navbar {
     background-color: var(--navbar-bg);
-    padding: 20px 30px;
-    box-shadow: var(--shadow);
+    height: var(--navbar-height);
     display: flex;
-    justify-content: space-between; /* Distribute items */
     align-items: center;
-    border-bottom: 1px solid var(--border-color);
-    flex-shrink: 0;
+    padding: 0 var(--spacing-unit);
+    box-shadow: var(--shadow);
+    z-index: 999; /* Below sidebar, above content */
+    width: 100%; /* Occupy full width of main-content */
+    flex-shrink: 0; /* Prevent it from shrinking */
+}
 
-    position: fixed; /* Fixed to viewport */
-    top: 0;
-    /* Left will be controlled by JS for dynamic width, initially it's sidebar-width */
-    left: var(--sidebar-width); /* Default left position */
-    width: calc(100% - var(--sidebar-width)); /* Adjust width based on sidebar */
-    z-index: 999; /* Higher z-index to stay on top */
-    box-sizing: border-box; /* Include padding in total width */
-    transition: left 0.3s ease, width 0.3s ease; /* Smooth transition for positioning */
+.navbar .menu-toggle {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-color);
+    cursor: pointer;
+    margin-right: calc(var(--spacing-unit) * 1.5); /* Space between toggle and title */
+    display: block; /* Always show toggle on desktop */
 }
 
 .navbar-left {
+    flex-grow: 1; /* Pushes navbar-right to the end */
     display: flex;
     align-items: center;
-    order: 2; /* Page name in the middle */
-    flex-grow: 1; /* Allows it to take remaining space for centering */
-    justify-content: center; /* Center the page name */
 }
 
 .navbar-left h1 {
+    font-size: 1.7rem;
     margin: 0;
-    font-size: 1.8em;
-    color: var(--text-color);
-    font-weight: 700; /* Make it more magnificent */
+    color: var(--primary-color);
+    white-space: nowrap;
 }
 
 .navbar-right {
     display: flex;
     align-items: center;
-    gap: 15px;
-    order: 3; /* Logout to the right */
-    margin-left: auto; /* Push to the far right if flex-grow isn't enough */
+    gap: var(--spacing-unit);
+    white-space: nowrap;
 }
 
-.menu-toggle {
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    color: var(--text-color);
-    cursor: pointer;
-    margin-right: 20px;
-    display: block;
-    order: 1; /* Menu button on the extreme left */
-}
-
-/* Adjustments for the logout button to be small and noticeable */
-.logout-btn { /* Assuming you have a class like this on your logout button */
-    padding: 8px 15px; /* Smaller padding */
-    font-size: 0.9em; /* Smaller font size */
-    background-color: transparent; /* No background by default */
-    color: var(--danger-color); /* Red text color */
-    border: 1px solid var(--danger-color); /* Subtle border */
-    border-radius: 5px;
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.logout-btn:hover {
-    background-color: var(--danger-color);
-    color: white;
-}
-
-/* Content Sections - Pushed down by the fixed navbar */
-.content-section {
-    padding: 30px;
-    flex-grow: 1; /* Allow content to push footer down */
-    /* Adjust padding-top to account for the navbar's height */
-    padding-top: 100px; /* Example: If navbar height is approx 60-70px, 100px gives good spacing */
-}
-
-/* Footer */
-footer {
-    text-align: center;
-    padding: 20px;
-    margin-top: auto; /* Push footer to the bottom of main-content */
-    background-color: var(--navbar-bg);
-    border-top: 1px solid var(--border-color);
+.navbar-right span {
+    font-size: 0.95rem;
     color: var(--secondary-color);
-    font-size: 0.9em;
-    flex-shrink: 0; /* Prevent footer from shrinking */
 }
 
-/* --- Common UI Components (kept concise) --- */
-.btn {
-    padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer;
-    font-size: 1.1em; font-weight: 600; text-decoration: none;
-    display: inline-block; transition: background-color 0.3s ease, transform 0.2s ease;
+/* --- Content Section --- */
+.content-section {
+    flex-grow: 1; /* Allows content to take available space */
+    padding: calc(var(--spacing-unit) * 1.5); /* Adjusted padding-top */
+    padding-top: calc(var(--spacing-unit) * 1.5); /* Reduced whitespace at top */
+    background-color: var(--background-color);
 }
-.btn-primary { background-color: var(--primary-color); color: white; }
-.btn-primary:hover { background-color: #0056b3; transform: translateY(-1px); }
-.btn-secondary { background-color: var(--secondary-color); color: white; }
-.btn-secondary:hover { background-color: #5a6268; transform: translateY(-1px); }
-.btn-info { background-color: var(--info-color); color: white; }
-.btn-info:hover { background-color: #117a8b; }
-.btn-warning { background-color: var(--warning-color); color: var(--dark-bg); }
-.btn-warning:hover { background-color: #e0a800; }
-.btn-danger { background-color: var(--danger-color); color: white; }
-.btn-danger:hover { background-color: #c82333; }
-.btn-success { background-color: var(--success-color); color: white; }
-.btn-success:hover { background-color: #218838; }
-.btn-sm { padding: 6px 12px; font-size: 0.85em; }
-.btn i { margin-right: 5px; }
+
+/* --- Cards & Grid --- */
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-unit);
+    margin-bottom: var(--spacing-unit); /* Space below card grids */
+}
 
 .card {
-    background-color: var(--card-bg); border-radius: 8px;
-    box-shadow: var(--shadow); padding: 25px; margin-bottom: 25px;
-}
-.data-table {
-    width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95em;
-}
-.data-table th, .data-table td {
-    padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color);
-}
-.data-table th {
-    background-color: var(--light-bg); font-weight: 600; color: var(--text-color); text-transform: uppercase;
-}
-.data-table tbody tr:hover { background-color: #f1f1f1; }
-.data-table .status-pending { color: var(--warning-color); font-weight: bold; }
-.data-table .status-paid { color: var(--success-color); font-weight: bold; }
-.data-table .status-overdue { color: var(--danger-color); font-weight: bold; }
-
-.toolbar {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 25px; padding: 15px 20px; background-color: var(--card-bg);
-    border-radius: 8px; box-shadow: var(--shadow);
-    flex-wrap: wrap; gap: 15px;
-}
-.search-filter { display: flex; flex-wrap: wrap; gap: 10px; }
-.search-filter input[type="text"], .search-filter select {
-    padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 5px;
-    font-size: 0.9em; flex-grow: 1; min-width: 150px;
+    background-color: var(--card-bg);
+    padding: calc(var(--spacing-unit) * 1.25);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    position: relative; /* For status badges etc. */
 }
 
-.card-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px; margin-bottom: 25px;
-}
 .overview-card {
-    display: flex; align-items: center; padding: 25px;
-    background-color: var(--card-bg); border-left: 5px solid var(--primary-color);
-    border-radius: 8px; transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align content to the left */
+    gap: var(--spacing-unit);
+    padding: calc(var(--spacing-unit) * 1.25);
 }
-.overview-card:hover { transform: translateY(-5px); }
-.card-icon { font-size: 2.5em; color: var(--primary-color); margin-right: 20px; }
-.card-content h3 { margin: 0; font-size: 1.1em; color: var(--secondary-color); }
-.card-content .metric { margin: 5px 0 0; font-size: 1.8em; font-weight: bold; color: var(--text-color); }
 
-.recent-activities ul { list-style: none; padding: 0; margin: 0; }
-.recent-activities li {
-    padding: 10px 0; border-bottom: 1px solid var(--light-bg); display: flex; align-items: center;
+.overview-card .card-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    background-color: rgba(0, 123, 255, 0.1);
+    padding: 0.75rem;
+    border-radius: 50%;
 }
-.recent-activities li:last-child { border-bottom: none; }
-.activity-icon { color: var(--success-color); margin-right: 10px; font-size: 1.1em; }
-.activity-icon.fa-file-upload { color: var(--info-color); }
-.activity-icon.fa-dollar-sign { color: var(--success-color); }
-.activity-icon.fa-edit { color: var(--warning-color); }
 
+.overview-card .card-content h3 {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.2rem;
+}
+
+.overview-card .card-content .metric {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+/* Quick Link Card specific styles */
 .quick-link-card {
-    text-align: center; text-decoration: none; color: var(--text-color);
-    border-bottom: 5px solid transparent; border-radius: 8px;
-    box-shadow: var(--shadow); padding: 25px;
-    transition: border-bottom-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
-.quick-link-card i { font-size: 3em; color: var(--primary-color); margin-bottom: 15px; }
-.quick-link-card:hover {
-    border-bottom-color: var(--primary-color); transform: translateY(-5px);
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--spacing-unit);
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    background-color: var(--card-bg);
+    color: var(--primary-color);
+    box-shadow: var(--shadow);
 }
 
+.quick-link-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.quick-link-card i {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+}
+
+.quick-link-card p {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-color); /* Ensure text is readable */
+}
+
+/* Recent Activities */
+.recent-activities ul {
+    padding-left: 0;
+    margin-top: 0.5rem;
+}
+
+.recent-activities li {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed var(--border-color);
+    font-size: 0.95rem;
+}
+
+.recent-activities li:last-child {
+    border-bottom: none;
+}
+
+.recent-activities .activity-icon {
+    margin-right: 0.7rem;
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+    padding-top: 3px; /* Align icon better with text */
+}
+
+/* --- Toolbar --- */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-unit);
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: var(--spacing-unit); /* Space between items when wrapped */
+}
+
+.search-filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap; /* Allow wrapping of search and filter inputs */
+    flex-grow: 1; /* Allow search-filter to take more space */
+}
+
+.search-input, .filter-select {
+    padding: 0.6rem 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 0.9rem;
+    flex-grow: 1; /* Allow inputs to grow */
+    min-width: 150px; /* Minimum width for inputs */
+}
+
+.search-input:focus, .filter-select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 0.7rem 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    border: none;
+    transition: background-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.btn i {
+    margin-right: 0.5rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary { /* Used for logout button in original index.html */
+    background-color: var(--secondary-color);
+    color: var(--light-text-color);
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+}
+
+.btn-info {
+    background-color: var(--info-color);
+    color: var(--light-text-color);
+}
+.btn-info:hover { background-color: #117a8b; }
+
+.btn-warning {
+    background-color: var(--warning-color);
+    color: var(--text-color); /* Yellow background needs darker text */
+}
+.btn-warning:hover { background-color: #e0a800; }
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: var(--light-text-color);
+}
+.btn-danger:hover { background-color: #c82333; }
+
+.btn-success {
+    background-color: var(--accent-color);
+    color: var(--light-text-color);
+}
+.btn-success:hover { background-color: #218838; }
+
+/* Logout button specific styling */
+.logout-btn {
+    background-color: var(--secondary-color); /* Or a specific logout color */
+    color: var(--light-text-color);
+    padding: 0.5rem 1rem;
+    font-weight: normal;
+    font-size: 0.9rem;
+    display: flex; /* Make it a flex container for icon and text */
+    align-items: center;
+}
+.logout-btn i {
+    margin-right: 0.5rem;
+}
+.logout-btn:hover {
+    background-color: #5a6268;
+}
+
+
+/* --- Data Tables --- */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: var(--spacing-unit);
+    font-size: 0.9rem;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+    background-color: var(--primary-color);
+    color: var(--light-text-color);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.data-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.data-table td button {
+    margin-right: 5px;
+}
+
+/* Status Badges in Tables */
+.status-pending {
+    color: var(--warning-color);
+    font-weight: 600;
+}
+.status-paid {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+.status-overdue {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+.status-active {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+
+/* --- Tab Navigation (Payments & Invoices, Taxes) --- */
 .tab-navigation {
-    display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--border-color);
-    flex-wrap: wrap; gap: 5px;
+    display: flex;
+    margin-bottom: var(--spacing-unit);
+    border-bottom: 2px solid var(--border-color);
+    flex-wrap: wrap; /* Allow tabs to wrap */
+    gap: 5px; /* Space between wrapped tabs */
 }
+
 .tab-btn {
-    background-color: transparent; border: none; padding: 15px 25px; cursor: pointer;
-    font-size: 1.1em; font-weight: 600; color: var(--secondary-color);
-    border-bottom: 3px solid transparent;
-    transition: color 0.3s ease, border-bottom-color 0.3s ease;
-    flex-shrink: 0;
+    background: none;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--secondary-color);
+    transition: color 0.2s ease-in-out, border-bottom 0.2s ease-in-out;
+    border-bottom: 2px solid transparent; /* Placeholder for active state */
 }
-.tab-btn:hover { color: var(--primary-color); }
-.tab-btn.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
-.tab-content { padding-top: 10px; }
+
+.tab-btn:hover {
+    color: var(--primary-color);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.tab-content {
+    display: none; /* Controlled by JavaScript */
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* --- Forms (Settings Page) --- */
+.settings-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-unit) calc(var(--spacing-unit) * 2);
+    margin-top: var(--spacing-unit);
+}
+
+.settings-form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-form label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.settings-form input[type="text"],
+.settings-form input[type="tel"],
+.settings-form input[type="email"],
+.settings-form input[type="number"],
+.settings-form input[type="password"] {
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 0.9rem;
+    width: 100%;
+}
+
+.settings-form input:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+.settings-form button[type="submit"] {
+    grid-column: 1 / -1; /* Span across all columns */
+    margin-top: var(--spacing-unit);
+    width: fit-content;
+}
+
+/* --- Footer --- */
+footer {
+    margin-top: auto; /* Pushes footer to the bottom */
+    padding: var(--spacing-unit);
+    background-color: var(--navbar-bg); /* Use a light background for footer */
+    color: var(--secondary-color);
+    text-align: center;
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border-color);
+    flex-shrink: 0; /* Prevent it from shrinking */
+}
 
 /* --- Login Page Specific Styles --- */
 .login-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to right, var(--primary-color), #0056b3);
     min-height: 100vh;
-    width: 100%;
+    background: linear-gradient(to right, var(--primary-color), #4CAF50); /* Simple gradient */
 }
 
 .login-container {
     background-color: var(--card-bg);
-    padding: 40px;
+    padding: calc(var(--spacing-unit) * 2);
     border-radius: 8px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    width: 100%; /* Take full width up to max-width */
-    max-width: 400px; /* Limits width on larger screens */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
     text-align: center;
-    box-sizing: border-box; /* Include padding in width calculation */
 }
-.login-logo { max-width: 120px; margin-bottom: 20px; }
-.login-header h1 { color: var(--primary-color); margin-bottom: 30px; font-size: 2em; }
-.form-group { margin-bottom: 20px; text-align: left; }
-.form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--text-color); }
-.form-group input[type="text"],
-.form-group input[type="password"] {
-    width: 100%; padding: 12px 10px; border: 1px solid var(--border-color);
-    border-radius: 5px; font-size: 1em; transition: border-color 0.3s ease;
-    box-sizing: border-box;
+
+.login-header {
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
 }
-.form-group input:focus {
-    border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+
+.login-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
 }
+
+.login-header h1 {
+    font-size: 1.8rem;
+    color: var(--primary-color);
+}
+
+.login-form .form-group {
+    text-align: left;
+    margin-bottom: var(--spacing-unit);
+}
+
+.login-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.login-form input[type="text"]:focus,
+.login-form input[type="password"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
 .form-options {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-bottom: 25px; font-size: 0.9em;
-}
-.form-options label { margin: 0; color: var(--text-color); }
-.form-options .forgot-password { color: var(--primary-color); text-decoration: none; }
-.form-options .forgot-password:hover { text-decoration: underline; }
-.login-footer { margin-top: 30px; font-size: 0.8em; color: var(--secondary-color); }
-
-/* Close Sidebar Button (for mobile overlay) */
-.close-sidebar-btn {
-    background: none; border: none; color: var(--sidebar-text);
-    font-size: 1.8em; cursor: pointer; position: absolute;
-    top: 15px; right: 15px; display: none;
-    z-index: 1001;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: calc(var(--spacing-unit) * 1.5);
+    font-size: 0.9rem;
 }
 
-/* --- Responsive Design --- */
-
-/* Desktop/Tablet: Sidebar Collapsed State */
-/* This class is applied to .admin-wrapper via JavaScript on menu toggle for larger screens */
-.admin-wrapper.collapsed .sidebar {
-    width: var(--sidebar-collapsed-width); /* Collapsed state (icon-only) */
-}
-.admin-wrapper.collapsed .sidebar .sidebar-header h2,
-.admin-wrapper.collapsed .sidebar .main-nav li a span {
-    opacity: 0; /* Fade out text */
-    pointer-events: none; /* Prevent interaction with hidden text */
-    width: 0; /* Collapse width of text to prevent overlap */
-    overflow: hidden; /* Hide overflow */
-    transition: opacity 0.3s ease, width 0.3s ease;
-}
-.admin-wrapper.collapsed .sidebar .main-nav li a {
-    justify-content: center; /* Center icons */
-    padding: 15px 0;
-}
-.admin-wrapper.collapsed .sidebar .main-nav li a i {
-    margin-right: 0; /* Remove margin when text is gone */
+.form-options label {
+    margin-bottom: 0; /* Override default form-group label margin */
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-/* Adjust main content's margin-left when sidebar is collapsed */
-.admin-wrapper.collapsed .main-content {
-    margin-left: var(--sidebar-collapsed-width); /* Shift main content left */
+.form-options input[type="checkbox"] {
+    margin-right: 5px;
 }
 
-/* Adjust navbar's position and width when sidebar is collapsed */
-.admin-wrapper.collapsed .navbar {
-    left: var(--sidebar-collapsed-width); /* Shift navbar left */
-    width: calc(100% - var(--sidebar-collapsed-width)); /* Expand navbar width */
+.forgot-password {
+    color: var(--primary-color);
+}
+
+.login-form .btn-primary {
+    width: 100%;
+    padding: 0.85rem;
+    font-size: 1.1rem;
+}
+
+.login-footer {
+    margin-top: calc(var(--spacing-unit) * 1.5);
+    font-size: 0.8rem;
+    color: var(--secondary-color);
 }
 
 
-/* Mobile Devices (e.g., tablets in portrait, phones) */
+/* --- Responsive Design (Media Queries) --- */
+
+/* Mobile Sidebar (Initially hidden, slides in) */
 @media (max-width: 768px) {
-    /* Prevent body scroll when mobile sidebar is open */
-    body.sidebar-open {
-        overflow: hidden; /* Prevent scrolling of content behind the overlay */
-    }
-
-    /* Login container adjustments */
-    .login-container {
-        padding: 30px 20px; /* Slightly more horizontal padding on smaller mobile */
-        margin: 20px; /* Margin to prevent sticking to edges */
-    }
-
-    /* Navbar adjustments for mobile */
-    .navbar {
-        position: fixed; /* Navbar is fixed to viewport on mobile */
-        top: 0;
-        left: 0;
-        width: 100%;
-        flex-direction: row; /* Maintain row direction */
-        justify-content: space-between; /* Space out elements */
-        align-items: center;
-        padding: 15px 20px;
-        box-sizing: border-box; /* Include padding in width */
-    }
-    /* Reorder elements for mobile navbar: menu-toggle | page name | logout */
-    .menu-toggle {
-        order: 1; /* Menu button on the extreme left */
-        margin-right: 0; /* No explicit margin, flex spacing handles it */
-    }
-    .navbar-left {
-        order: 2; /* Page name in the middle */
-        flex-grow: 1; /* Allow it to take available space */
-        text-align: center; /* Center the page name */
-        padding: 0 10px; /* Add some padding around the title */
-    }
-    .navbar-right {
-        order: 3; /* Logout to the right */
-        margin-left: 0; /* Remove auto margin */
-    }
-
-    /* Logout button styling for mobile if needed, or rely on general styles */
-    .logout-btn {
-        padding: 6px 12px; /* Smaller button for mobile */
-        font-size: 0.8em;
-    }
-
-    /* Admin Wrapper behavior for mobile (sidebar overlay) */
-    .admin-wrapper {
-        flex-direction: column; /* Stack sidebar and main content vertically */
-        position: relative; /* Context for children if needed */
-    }
-
     .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: fixed; /* Fixed position for overlay */
-        left: 0;
-        top: 0;
-        z-index: 1000; /* Ensure it's above content and navbar */
-        transform: translateX(-100%); /* Hide off-screen initially */
-        transition: transform 0.3s ease-in-out;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
-        overflow-y: auto; /* Enable scrolling for sidebar content */
-    }
-    .admin-wrapper.sidebar-open .sidebar {
-        transform: translateX(0); /* Slide in when 'sidebar-open' class is present */
+        width: var(--sidebar-width); /* Full width for mobile overlay */
+        transform: translateX(-100%); /* Hidden by default */
+        position: fixed; /* Keep it fixed */
+        z-index: 1001; /* Higher z-index to overlay content */
+        box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);
     }
 
-    /* Ensure sidebar content is visible in mobile overlay */
-    .sidebar .sidebar-header h2,
-    .sidebar .main-nav li a span {
-        opacity: 1; /* Make text visible */
-        width: auto; /* Restore width */
-        overflow: visible; /* Restore overflow */
-        display: block; /* Always show title and text labels for mobile overlay */
+    .sidebar.open {
+        transform: translateX(0%); /* Slide in */
     }
-    .sidebar .main-nav li a {
-        justify-content: flex-start; /* Align text left */
-        padding: 15px 20px;
+
+    .sidebar-header {
+        justify-content: space-between;
     }
-    .sidebar .main-nav li a i {
-        margin-right: 15px;
-    }
-    /* Show the close button on mobile */
+
     .close-sidebar-btn {
-        display: block;
-    }
-    .sidebar .sidebar-header {
-        padding-right: 50px; /* Make space for the close button */
+        display: block; /* Show close button on mobile */
     }
 
-    /* Main content on mobile */
+    .sidebar.collapsed { /* On mobile, 'collapsed' state means it's closed */
+        width: var(--sidebar-width); /* No collapsing, just open/close */
+    }
+
+    /* Main Content adjustments for mobile */
     .main-content {
-        width: 100%;
-        margin-left: 0; /* No margin-left on mobile, it's an overlay */
-        /* Important: Increased padding-top for fixed mobile navbar */
-        padding-top: 90px; /* Adjust based on your mobile navbar's specific height */
+        margin-left: 0; /* No margin-left on mobile, sidebar is an overlay */
+        width: 100%; /* Take full width */
     }
 
-    /* Toolbar adjustments for mobile */
+    .main-content.shifted { /* Shifted class is not used on mobile */
+        margin-left: 0;
+    }
+
+    .navbar .menu-toggle {
+        display: block; /* Ensure menu toggle is always visible on mobile */
+        margin-right: var(--spacing-unit);
+    }
+
+    .navbar-left h1 {
+        font-size: 1.5rem; /* Smaller title on mobile */
+    }
+
+    .navbar-right span {
+        display: none; /* Hide welcome message on small screens */
+    }
+
+    .content-section {
+        padding: calc(var(--spacing-unit) * 1); /* Smaller padding on mobile */
+    }
+
     .toolbar {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 15px;
-        gap: 10px;
+        flex-direction: column; /* Stack toolbar items */
+        align-items: stretch; /* Stretch items to full width */
     }
+
     .search-filter {
+        width: 100%;
         flex-direction: column;
-        width: 100%;
-        gap: 10px;
-    }
-    .search-filter input,
-    .search-filter select {
-        width: calc(100% - 20px); /* Adjust for padding */
-        margin-right: 0;
-        margin-bottom: 0;
-    }
-    .toolbar .btn {
-        width: 100%;
-        margin-bottom: 0;
+        gap: var(--spacing-unit);
     }
 
-    /* Card grid for mobile */
-    .card-grid {
-        grid-template-columns: 1fr;
-        gap: 15px;
+    .search-input, .filter-select {
+        width: 100%;
+        min-width: unset; /* Remove min-width constraint */
     }
 
-    /* Data table horizontal scrolling for mobile */
+    .toolbar .btn-primary {
+        width: 100%;
+    }
+
     .data-table {
+        /* Make table scrollable horizontally on smaller screens */
         display: block;
         overflow-x: auto;
-        white-space: nowrap; /* Prevent content from wrapping (important for table cells) */
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
     }
-    .data-table th, .data-table td {
-        min-width: 120px; /* Ensure columns have a minimum width */
+
+    .data-table thead, .data-table tbody, .data-table th, .data-table td, .data-table tr {
+        display: block; /* Ensure full table can scroll */
+    }
+
+    /* For smaller screens, consider stacking table cells */
+    .data-table td {
+        text-align: right;
+        padding-left: 50%; /* Space for pseudo-element label */
+        position: relative;
+    }
+
+    .data-table td::before {
+        content: attr(data-label); /* Use data-label for mobile headers */
+        position: absolute;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+    }
+
+    /* Adjust specific tables if needed for better mobile experience */
+    .data-table th {
+        display: none; /* Hide table headers on smaller screens */
+    }
+
+    .data-table td:first-child {
+        font-weight: bold; /* Make first column prominent */
+    }
+
+    .data-table tbody tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-color);
+        display: block;
+        box-shadow: var(--shadow);
+        border-radius: 8px;
+        padding: 0.5rem;
+    }
+
+    .data-table td:last-child { /* Actions column */
+        text-align: center;
+        margin-top: 10px;
+        border-bottom: none;
     }
 }
 
-/* Smaller mobile devices (further refinements) */
-@media (max-width: 480px) {
-    .login-container {
-        padding: 20px;
-        margin: 10px;
-    }
-    .card {
-        padding: 15px;
-    }
-    .navbar-left h1 {
-        font-size: 1.5em;
-    }
-    .navbar-right span {
-        display: none; /* Hide welcome text on very small screens */
-    }
-    .tab-btn {
-        padding: 10px 15px;
-        font-size: 0.9em;
-    }
-    .tab-navigation {
-        flex-wrap: wrap;
-    }
-}
-                      
+/* Tablet / Medium Screens */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sidebar {
+        width: var(--sidebar-collapsed-width); /* Def
