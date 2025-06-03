@@ -1,43 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Sidebar Toggle ---
     const menuToggle = document.querySelector('.menu-toggle');
     const adminWrapper = document.querySelector('.admin-wrapper');
     const sidebar = document.querySelector('.sidebar');
     const closeSidebarBtn = document.querySelector('.close-sidebar-btn');
 
-    // Logic for the main menu toggle button (in the navbar)
-    if (menuToggle && adminWrapper && sidebar) {
+    // Handle the main menu toggle button click (in the navbar)
+    if (menuToggle && adminWrapper) { // Ensure elements exist
         menuToggle.addEventListener('click', () => {
-            // For desktop/tablet (icon-only sidebar toggle)
-            // This is primarily for larger screens where sidebar collapses/expands
-            if (window.innerWidth > 768) { // Only toggle 'collapsed' on larger screens
+            // Check screen width to determine behavior
+            if (window.innerWidth > 768) {
+                // On larger screens (desktop/tablet), toggle 'collapsed' state for sidebar
                 adminWrapper.classList.toggle('collapsed');
-            } else { // On smaller screens, toggle 'sidebar-open' for the overlay
+                // Ensure sidebar-open is removed if present from prior mobile view
+                adminWrapper.classList.remove('sidebar-open');
+            } else {
+                // On smaller screens (mobile), toggle 'sidebar-open' for overlay
                 adminWrapper.classList.toggle('sidebar-open');
+                // Ensure collapsed is removed if present from prior desktop view
+                adminWrapper.classList.remove('collapsed');
             }
         });
     }
 
-    // Logic for the close button inside the sidebar (primarily for mobile)
-    if (closeSidebarBtn && adminWrapper) {
+    // Handle the close button inside the sidebar (primarily for mobile overlay)
+    if (closeSidebarBtn && adminWrapper) { // Ensure elements exist
         closeSidebarBtn.addEventListener('click', () => {
-            adminWrapper.classList.remove('sidebar-open'); // Close the mobile sidebar overlay
-            // If you want it to also 'un-collapse' if it was collapsed on desktop and then closed on mobile, uncomment:
+            adminWrapper.classList.remove('sidebar-open'); // Always close the mobile overlay
+            // If you want clicking the close button on mobile to also revert desktop collapse:
             // adminWrapper.classList.remove('collapsed');
         });
     }
 
-    // Optional: Close sidebar if a navigation item is clicked (good for mobile UX)
+    // Optional: Close mobile sidebar when a navigation link is clicked
     const navLinks = document.querySelectorAll('.main-nav a');
-    if (navLinks.length > 0 && adminWrapper) {
+    if (navLinks.length > 0 && adminWrapper) { // Ensure elements exist
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                // If the mobile sidebar is open, close it after a link click
-                if (adminWrapper.classList.contains('sidebar-open')) {
-                    adminWrapper.classList.remove('sidebar-open');
+                if (window.innerWidth <= 768 && adminWrapper.classList.contains('sidebar-open')) {
+                    adminWrapper.classList.remove('sidebar-open'); // Close on mobile after link click
                 }
-                // If sidebar is collapsed on desktop, you might want to keep it collapsed,
-                // or expand it based on your desired UX. No change needed here for now.
             });
         });
     }
@@ -49,31 +50,25 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tabButtons.length > 0 && tabContents.length > 0) {
         tabButtons.forEach(button => {
             button.addEventListener('click', () => {
-                // Remove active class from all buttons and hide all contents
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 tabContents.forEach(content => content.style.display = 'none');
 
-                // Add active class to clicked button
                 button.classList.add('active');
-
-                // Show the corresponding content
                 const targetTab = button.dataset.tab;
                 const targetElement = document.getElementById(targetTab);
-                if (targetElement) { // Ensure the target element exists
+                if (targetElement) {
                     targetElement.style.display = 'block';
                 }
             });
         });
-
-        // Set initial active tab on page load if needed (already handled by HTML 'active' class)
-        // You can uncomment and modify this if you want to dynamically set the first tab
-        // const initialActiveTab = document.querySelector('.tab-btn.active');
-        // if (initialActiveTab) {
-        //     const targetTab = initialActiveTab.dataset.tab;
-        //     const targetElement = document.getElementById(targetTab);
-        //     if (targetElement) {
-        //         targetElement.style.display = 'block';
-        //     }
-        // }
+        // Ensure the initial active tab content is displayed on page load
+        const initialActiveTab = document.querySelector('.tab-btn.active');
+        if (initialActiveTab) {
+            const targetTab = initialActiveTab.dataset.tab;
+            const targetElement = document.getElementById(targetTab);
+            if (targetElement) {
+                targetElement.style.display = 'block';
+            }
+        }
     }
 });
