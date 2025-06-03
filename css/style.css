@@ -1,4 +1,4 @@
-/* General Body and Container Styles */
+/* General Body and Root Variables */
 :root {
     --primary-color: #007bff; /* A nice blue */
     --secondary-color: #6c757d; /* Gray for secondary actions */
@@ -18,37 +18,43 @@
     --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%; /* Ensure html and body take full height */
+    overflow-x: hidden; /* Prevent horizontal scroll from accidental content overflow */
+}
+
 body {
     font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    margin: 0; /* Important for fixed elements */
-    padding: 0; /* Important for fixed elements */
     background-color: var(--light-bg);
     color: var(--text-color);
     line-height: 1.6;
-    display: flex; /* For admin-wrapper to occupy full height */
-    flex-direction: column; /* Allows content within body to stack */
-    min-height: 100vh; /* Ensure full viewport height */
-    overflow-x: hidden; /* Prevent horizontal scroll from sidebar off-screen */
+    display: flex; /* Flex container for admin-wrapper to take full height */
+    flex-direction: column;
 }
 
-/* Admin Wrapper Layout (Sidebar + Main Content) */
+/* Admin Wrapper Layout */
 .admin-wrapper {
     display: flex;
-    width: 100%;
     flex-grow: 1; /* Allows it to take remaining height within body */
-    /* Transition for whole wrapper if main content also shifts, e.g., for collapsed state */
-    transition: margin-left 0.3s ease; /* If main content shifts left/right */
+    width: 100%;
+    /* Transition for margin-left when sidebar collapses/expands on desktop (if applicable) */
+    transition: margin-left 0.3s ease;
 }
 
 /* Sidebar */
 .sidebar {
-    width: 250px;
+    width: 250px; /* Default desktop width */
     background-color: var(--sidebar-bg);
     color: var(--sidebar-text);
     padding: 20px 0;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     flex-shrink: 0; /* Prevent sidebar from shrinking */
     transition: width 0.3s ease, transform 0.3s ease; /* For collapse and mobile slide */
+    overflow-y: auto; /* Enable vertical scrolling within the sidebar if content overflows */
+    position: relative; /* Context for children */
+    z-index: 10; /* Make sure sidebar is visually above main content if needed */
 }
 
 .sidebar-header {
@@ -56,6 +62,7 @@ body {
     margin-bottom: 30px;
     padding: 0 15px;
     position: relative; /* Needed for absolute positioning of close button */
+    padding-right: 50px; /* Make space for close button on mobile, if it's there */
 }
 
 .sidebar-logo {
@@ -101,14 +108,11 @@ body {
     flex-grow: 1; /* Allows it to take remaining space */
     display: flex;
     flex-direction: column;
-    /* IMPORTANT: This pushes content down from under the fixed navbar. */
-    /* Adjust if your navbar height changes. */
-    padding-top: 80px;
-    position: relative; /* For z-indexing if needed */
-    z-index: 1; /* Ensure it's above body background, below navbar */
+    position: relative; /* Essential for positioning the navbar inside it */
+    z-index: 1; /* Ensure it's below fixed navbar or correctly layers */
 }
 
-/* Navbar (Top Bar) */
+/* Navbar (Top Bar) - Desktop Layout */
 .navbar {
     background-color: var(--navbar-bg);
     padding: 20px 30px;
@@ -119,12 +123,13 @@ body {
     border-bottom: 1px solid var(--border-color);
     flex-shrink: 0;
 
-    /* ADD THESE LINES FOR STICKY NAVBAR */
-    position: fixed; /* Makes it stick to the viewport */
-    top: 0;          /* Positions it at the very top */
-    left: 0;         /* Positions it at the very left */
-    width: 100%;     /* Ensures it spans the full width */
-    z-index: 999;    /* Makes sure it's above other content */
+    /* Position navbar relative to .main-content on desktop */
+    position: absolute; /* Placed within main-content's flow */
+    top: 0;
+    left: 0;
+    width: 100%; /* Spans the width of its parent (.main-content) */
+    z-index: 999; /* Higher z-index to stay on top of main content */
+    box-sizing: border-box; /* Include padding in total width */
 }
 
 .navbar-left {
@@ -155,15 +160,16 @@ body {
     font-size: 1.5em;
     color: var(--text-color);
     cursor: pointer;
-    margin-right: 20px;
-    /* Always display the toggle button for desktop/tablet collapsing */
-    display: block;
+    margin-right: 20px; /* Space from adjacent elements */
+    display: block; /* Always display for desktop collapsing behavior */
 }
 
-/* Content Sections */
+/* Content Sections - Pushed down by the absolute navbar within main-content */
 .content-section {
     padding: 30px;
     flex-grow: 1; /* Allow content to push footer down */
+    /* Adjust padding-top to account for the navbar's height *within* main-content */
+    padding-top: 100px; /* Example: If navbar height is approx 60-70px, 100px gives good spacing */
 }
 
 /* Footer */
@@ -178,282 +184,127 @@ footer {
     flex-shrink: 0; /* Prevent footer from shrinking */
 }
 
+/* --- Common UI Components --- */
+/* (Keeping these concise as they don't seem to be the primary issues) */
+
 /* Buttons */
 .btn {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.1em;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-block;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer;
+    font-size: 1.1em; font-weight: 600; text-decoration: none;
+    display: inline-block; transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-    transform: translateY(-1px);
-}
-
-.btn-secondary {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268;
-    transform: translateY(-1px);
-}
-
-.btn-info {
-    background-color: var(--info-color);
-    color: white;
-}
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: #0056b3; transform: translateY(-1px); }
+.btn-secondary { background-color: var(--secondary-color); color: white; }
+.btn-secondary:hover { background-color: #5a6268; transform: translateY(-1px); }
+.btn-info { background-color: var(--info-color); color: white; }
 .btn-info:hover { background-color: #117a8b; }
-
-.btn-warning {
-    background-color: var(--warning-color);
-    color: var(--dark-bg);
-}
+.btn-warning { background-color: var(--warning-color); color: var(--dark-bg); }
 .btn-warning:hover { background-color: #e0a800; }
-
-.btn-danger {
-    background-color: var(--danger-color);
-    color: white;
-}
+.btn-danger { background-color: var(--danger-color); color: white; }
 .btn-danger:hover { background-color: #c82333; }
-
-.btn-success {
-    background-color: var(--success-color);
-    color: white;
-}
+.btn-success { background-color: var(--success-color); color: white; }
 .btn-success:hover { background-color: #218838; }
-
-.btn-sm {
-    padding: 6px 12px;
-    font-size: 0.85em;
-}
-.btn i {
-    margin-right: 5px;
-}
+.btn-sm { padding: 6px 12px; font-size: 0.85em; }
+.btn i { margin-right: 5px; }
 
 /* Cards */
 .card {
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    padding: 25px;
-    margin-bottom: 25px;
+    background-color: var(--card-bg); border-radius: 8px;
+    box-shadow: var(--shadow); padding: 25px; margin-bottom: 25px;
 }
 
 /* Data Tables */
 .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 0.95em;
+    width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95em;
 }
-
 .data-table th, .data-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid var(--border-color);
+    padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color);
 }
-
 .data-table th {
-    background-color: var(--light-bg);
-    font-weight: 600;
-    color: var(--text-color);
-    text-transform: uppercase;
+    background-color: var(--light-bg); font-weight: 600; color: var(--text-color); text-transform: uppercase;
 }
-
-.data-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-.data-table .status-pending {
-    color: var(--warning-color);
-    font-weight: bold;
-}
-.data-table .status-paid {
-    color: var(--success-color);
-    font-weight: bold;
-}
-.data-table .status-overdue {
-    color: var(--danger-color);
-    font-weight: bold;
-}
+.data-table tbody tr:hover { background-color: #f1f1f1; }
+.data-table .status-pending { color: var(--warning-color); font-weight: bold; }
+.data-table .status-paid { color: var(--success-color); font-weight: bold; }
+.data-table .status-overdue { color: var(--danger-color); font-weight: bold; }
 
 /* Toolbar for lists */
 .toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding: 15px 20px;
-    background-color: var(--card-bg);
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-    gap: 15px; /* Space between items when wrapping */
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 25px; padding: 15px 20px; background-color: var(--card-bg);
+    border-radius: 8px; box-shadow: var(--shadow);
+    flex-wrap: wrap; gap: 15px;
 }
-
-.search-filter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.search-filter input[type="text"],
-.search-filter select {
-    padding: 10px 15px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    /* margin-right: 10px; Removed in favor of gap */
-    font-size: 0.9em;
-    flex-grow: 1; /* Allow them to grow in space */
-    min-width: 150px; /* Minimum width before wrapping */
+.search-filter { display: flex; flex-wrap: wrap; gap: 10px; }
+.search-filter input[type="text"], .search-filter select {
+    padding: 10px 15px; border: 1px solid var(--border-color); border-radius: 5px;
+    font-size: 0.9em; flex-grow: 1; min-width: 150px;
 }
 
 /* Dashboard Overview Cards */
 .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 25px;
-    margin-bottom: 25px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px; margin-bottom: 25px;
 }
-
 .overview-card {
-    display: flex;
-    align-items: center;
-    padding: 25px;
-    background-color: var(--card-bg);
-    border-left: 5px solid var(--primary-color);
-    border-radius: 8px; /* Consistent with other cards */
-    transition: transform 0.2s ease;
+    display: flex; align-items: center; padding: 25px;
+    background-color: var(--card-bg); border-left: 5px solid var(--primary-color);
+    border-radius: 8px; transition: transform 0.2s ease;
 }
-
-.overview-card:hover {
-    transform: translateY(-5px);
-}
-
-.card-icon {
-    font-size: 2.5em;
-    color: var(--primary-color);
-    margin-right: 20px;
-}
-
-.card-content h3 {
-    margin: 0;
-    font-size: 1.1em;
-    color: var(--secondary-color);
-}
-
-.card-content .metric {
-    margin: 5px 0 0;
-    font-size: 1.8em;
-    font-weight: bold;
-    color: var(--text-color);
-}
+.overview-card:hover { transform: translateY(-5px); }
+.card-icon { font-size: 2.5em; color: var(--primary-color); margin-right: 20px; }
+.card-content h3 { margin: 0; font-size: 1.1em; color: var(--secondary-color); }
+.card-content .metric { margin: 5px 0 0; font-size: 1.8em; font-weight: bold; color: var(--text-color); }
 
 /* Recent Activities */
-.recent-activities ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
+.recent-activities ul { list-style: none; padding: 0; margin: 0; }
 .recent-activities li {
-    padding: 10px 0;
-    border-bottom: 1px solid var(--light-bg);
-    display: flex;
-    align-items: center;
+    padding: 10px 0; border-bottom: 1px solid var(--light-bg); display: flex; align-items: center;
 }
-
-.recent-activities li:last-child {
-    border-bottom: none;
-}
-
-.activity-icon {
-    color: var(--success-color);
-    margin-right: 10px;
-    font-size: 1.1em;
-}
+.recent-activities li:last-child { border-bottom: none; }
+.activity-icon { color: var(--success-color); margin-right: 10px; font-size: 1.1em; }
 .activity-icon.fa-file-upload { color: var(--info-color); }
 .activity-icon.fa-dollar-sign { color: var(--success-color); }
 .activity-icon.fa-edit { color: var(--warning-color); }
 
 /* Quick Links */
 .quick-link-card {
-    text-align: center;
-    text-decoration: none;
-    color: var(--text-color);
-    border-bottom: 5px solid transparent;
-    border-radius: 8px; /* Consistent with other cards */
-    box-shadow: var(--shadow); /* Add shadow to quick links */
-    padding: 25px;
+    text-align: center; text-decoration: none; color: var(--text-color);
+    border-bottom: 5px solid transparent; border-radius: 8px;
+    box-shadow: var(--shadow); padding: 25px;
     transition: border-bottom-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
-.quick-link-card i {
-    font-size: 3em;
-    color: var(--primary-color);
-    margin-bottom: 15px;
-}
+.quick-link-card i { font-size: 3em; color: var(--primary-color); margin-bottom: 15px; }
 .quick-link-card:hover {
-    border-bottom-color: var(--primary-color);
-    transform: translateY(-5px);
-    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* Slightly more pronounced shadow on hover */
+    border-bottom-color: var(--primary-color); transform: translateY(-5px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
 /* Tab Navigation */
 .tab-navigation {
-    display: flex;
-    margin-bottom: 20px;
-    border-bottom: 1px solid var(--border-color);
-    flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
-    gap: 5px; /* Small gap between tabs */
+    display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap; gap: 5px;
 }
-
 .tab-btn {
-    background-color: transparent;
-    border: none;
-    padding: 15px 25px;
-    cursor: pointer;
-    font-size: 1.1em;
-    font-weight: 600;
-    color: var(--secondary-color);
+    background-color: transparent; border: none; padding: 15px 25px; cursor: pointer;
+    font-size: 1.1em; font-weight: 600; color: var(--secondary-color);
     border-bottom: 3px solid transparent;
     transition: color 0.3s ease, border-bottom-color 0.3s ease;
-    flex-shrink: 0; /* Prevent tabs from shrinking too much */
+    flex-shrink: 0;
 }
+.tab-btn:hover { color: var(--primary-color); }
+.tab-btn.active { color: var(--primary-color); border-bottom-color: var(--primary-color); }
+.tab-content { padding-top: 10px; }
 
-.tab-btn:hover {
-    color: var(--primary-color);
-}
-
-.tab-btn.active {
-    color: var(--primary-color);
-    border-bottom-color: var(--primary-color);
-}
-
-.tab-content {
-    padding-top: 10px;
-}
-
-/* Login Page Specific Styles */
+/* --- Login Page Specific Styles --- */
 .login-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to right, var(--primary-color), #0056b3); /* Gradient background */
-    min-height: 100vh; /* Ensure it takes full height */
-    width: 100%; /* Ensure it takes full width */
+    background: linear-gradient(to right, var(--primary-color), #0056b3);
+    min-height: 100vh;
+    width: 100%;
 }
 
 .login-container {
@@ -461,9 +312,10 @@ footer {
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    width: 100%;
-    max-width: 400px;
+    width: 100%; /* Take full width up to max-width */
+    max-width: 400px; /* Limits width on larger screens */
     text-align: center;
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .login-logo {
@@ -491,12 +343,13 @@ footer {
 
 .form-group input[type="text"],
 .form-group input[type="password"] {
-    width: calc(100% - 20px); /* Adjust for padding */
+    width: 100%; /* Full width within form-group */
     padding: 12px 10px;
     border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 1em;
     transition: border-color 0.3s ease;
+    box-sizing: border-box; /* Include padding and border in element's total width/height */
 }
 
 .form-group input:focus {
@@ -533,22 +386,21 @@ footer {
     color: var(--secondary-color);
 }
 
-
 /* Close Sidebar Button (for mobile overlay) */
 .close-sidebar-btn {
     background: none;
     border: none;
-    color: var(--sidebar-text); /* Or white, or a contrasting color */
-    font-size: 1.8em; /* Larger icon for easy tap */
+    color: var(--sidebar-text);
+    font-size: 1.8em;
     cursor: pointer;
-    position: absolute; /* Position it absolutely within sidebar-header */
+    position: absolute;
     top: 15px;
     right: 15px;
     display: none; /* Hidden by default, only show on mobile */
     z-index: 1001; /* Ensure it's above other sidebar content */
 }
 
-/* Responsive Design */
+/* --- Responsive Design --- */
 
 /* Desktop/Tablet: Sidebar Collapsed State */
 /* This class is applied via JavaScript on menu toggle for larger screens */
@@ -566,53 +418,66 @@ footer {
 .admin-wrapper.collapsed .sidebar .main-nav li a i {
     margin-right: 0;
 }
-/* Ensure the menu-toggle is still visible on desktop */
-.menu-toggle {
-    display: block; /* Already set globally, but re-emphasizing for clarity */
+/* When sidebar collapses, main-content's internal navbar still sits correctly */
+.admin-wrapper.collapsed .main-content .navbar {
+    /* No need to change left/width here as it's absolute within main-content already */
 }
-
 
 /* Mobile Devices (e.g., tablets in portrait, phones) */
 @media (max-width: 768px) {
+    /* Prevent body scroll when mobile sidebar is open */
+    body.sidebar-open {
+        overflow: hidden; /* Prevent scrolling of content behind the overlay */
+    }
+
     /* Login container adjustments */
     .login-container {
-        padding: 30px;
-        margin: 20px; /* Smaller margin for mobile */
+        padding: 30px 20px; /* Slightly more horizontal padding on smaller mobile */
+        margin: 20px; /* Margin to prevent sticking to edges */
     }
 
     /* Navbar adjustments for mobile */
     .navbar {
-        flex-direction: column; /* Stack navbar items vertically */
-        align-items: flex-start; /* Align stacked items to the left */
-        gap: 10px;
+        position: fixed; /* Navbar is fixed to viewport on mobile */
+        top: 0;
+        left: 0;
+        width: 100%;
+        flex-direction: row; /* Keep row for icon and title */
+        justify-content: space-between; /* Space between toggle/title and right items */
+        align-items: center;
         padding: 15px 20px;
+        box-sizing: border-box; /* Include padding in width */
+    }
+    .navbar-left {
+        order: 2; /* Put title/logo in middle */
+        flex-grow: 1; /* Allow it to take available space */
+        text-align: center; /* Center title */
     }
     .navbar-right {
-        width: 100%; /* Ensure right section takes full width for spacing */
-        justify-content: space-between;
+        order: 3; /* Put right items last */
     }
-    /* Menu toggle remains visible */
     .menu-toggle {
-        display: block;
+        order: 1; /* Put toggle first */
+        margin-right: 0; /* Remove internal margin, handled by flex space */
     }
 
     /* Admin Wrapper behavior for mobile (sidebar overlay) */
     .admin-wrapper {
         flex-direction: column; /* Stack sidebar and main content vertically */
-        /* For mobile, the sidebar becomes an overlay, so main-content takes full width */
-        position: relative; /* Needed for sidebar fixed positioning context if not body */
+        position: relative; /* Context for children if needed */
     }
 
     .sidebar {
-        width: 250px; /* Or 100vw for full screen mobile sidebar */
-        height: 100vh; /* Full viewport height */
+        width: 250px;
+        height: 100vh;
         position: fixed; /* Fixed position for overlay */
         left: 0;
         top: 0;
-        z-index: 1000; /* Ensure it's above other content and navbar */
+        z-index: 1000; /* Ensure it's above content and navbar */
         transform: translateX(-100%); /* Hide off-screen initially */
         transition: transform 0.3s ease-in-out;
-        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Add shadow for overlay effect */
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+        overflow-y: auto; /* Enable scrolling for sidebar content */
     }
     .admin-wrapper.sidebar-open .sidebar {
         transform: translateX(0); /* Slide in when 'sidebar-open' class is present */
@@ -640,16 +505,17 @@ footer {
 
     /* Main content on mobile */
     .main-content {
-        width: 100%; /* Take full width */
-        padding-top: 80px; /* Keep padding for fixed navbar */
+        width: 100%;
+        /* Important: Increased padding-top for fixed mobile navbar */
+        padding-top: 90px; /* Adjust based on your mobile navbar's specific height */
     }
 
     /* Toolbar adjustments for mobile */
     .toolbar {
         flex-direction: column;
-        align-items: stretch; /* Stretch items to full width */
+        align-items: stretch;
         padding: 15px;
-        gap: 10px; /* Adjust gap for vertical stacking */
+        gap: 10px;
     }
     .search-filter {
         flex-direction: column;
@@ -658,25 +524,25 @@ footer {
     }
     .search-filter input,
     .search-filter select {
-        width: calc(100% - 20px); /* Account for padding */
-        margin-right: 0; /* Remove margin-right if using gap */
-        margin-bottom: 0; /* Remove margin-bottom if using gap */
+        width: calc(100% - 20px); /* Adjust for padding */
+        margin-right: 0;
+        margin-bottom: 0;
     }
-    .toolbar .btn { /* Target the button within toolbar specifically */
-        width: 100%; /* Full width buttons on mobile */
-        margin-bottom: 0; /* Remove margin-bottom if using gap */
+    .toolbar .btn {
+        width: 100%;
+        margin-bottom: 0;
     }
 
     /* Card grid for mobile */
     .card-grid {
-        grid-template-columns: 1fr; /* Stack cards vertically */
+        grid-template-columns: 1fr;
         gap: 15px;
     }
 
     /* Data table horizontal scrolling for mobile */
     .data-table {
-        display: block; /* Allow table to scroll horizontally */
-        overflow-x: auto; /* Enable horizontal scrolling */
+        display: block;
+        overflow-x: auto;
         white-space: nowrap; /* Prevent content from wrapping (important for table cells) */
         -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
     }
@@ -685,10 +551,11 @@ footer {
     }
 }
 
-/* Smaller mobile devices */
+/* Smaller mobile devices (further refinements) */
 @media (max-width: 480px) {
     .login-container {
         padding: 20px;
+        margin: 10px;
     }
     .card {
         padding: 15px;
@@ -704,7 +571,7 @@ footer {
         font-size: 0.9em;
     }
     .tab-navigation {
-        flex-wrap: wrap; /* Ensure tabs wrap if too many */
-    }
+        flex-wrap: wrap;
+    } 
 }
-  
+    
