@@ -16,6 +16,8 @@
     --sidebar-hover: #1e282c;
     --navbar-bg: #ffffff;
     --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --sidebar-width: 250px; /* Define default sidebar width as a variable */
+    --sidebar-collapsed-width: 60px; /* Define collapsed sidebar width */
 }
 
 html, body {
@@ -39,13 +41,12 @@ body {
     display: flex;
     flex-grow: 1; /* Allows it to take remaining height within body */
     width: 100%;
-    /* Transition for margin-left when sidebar collapses/expands on desktop (if applicable) */
-    transition: margin-left 0.3s ease;
+    /* No transition for margin-left here, it will be on main-content */
 }
 
 /* Sidebar */
 .sidebar {
-    width: 250px; /* Default desktop width */
+    width: var(--sidebar-width); /* Default desktop width */
     background-color: var(--sidebar-bg);
     color: var(--sidebar-text);
     padding: 20px 0;
@@ -54,7 +55,7 @@ body {
     transition: width 0.3s ease, transform 0.3s ease; /* For collapse and mobile slide */
     overflow-y: auto; /* Enable vertical scrolling within the sidebar if content overflows */
     position: relative; /* Context for children */
-    z-index: 10; /* Make sure sidebar is visually above main content if needed */
+    z-index: 100; /* Ensure sidebar is above main content */
 }
 
 .sidebar-header {
@@ -62,7 +63,7 @@ body {
     margin-bottom: 30px;
     padding: 0 15px;
     position: relative; /* Needed for absolute positioning of close button */
-    padding-right: 50px; /* Make space for close button on mobile, if it's there */
+    padding-right: 50px; /* Space for close button on mobile, if it's there */
 }
 
 .sidebar-logo {
@@ -75,6 +76,7 @@ body {
     color: white;
     font-size: 1.5em;
     margin: 0;
+    transition: opacity 0.3s ease; /* For hiding text when collapsed */
 }
 
 .main-nav ul {
@@ -90,6 +92,8 @@ body {
     color: var(--sidebar-text);
     text-decoration: none;
     transition: background-color 0.3s ease, color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow when collapsed */
 }
 
 .main-nav li a:hover,
@@ -101,6 +105,11 @@ body {
 .main-nav li a i {
     margin-right: 15px;
     font-size: 1.1em;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.main-nav li a span {
+    transition: opacity 0.3s ease; /* For hiding text when collapsed */
 }
 
 /* Main Content Area */
@@ -108,8 +117,9 @@ body {
     flex-grow: 1; /* Allows it to take remaining space */
     display: flex;
     flex-direction: column;
-    position: relative; /* Essential for positioning the navbar inside it */
-    z-index: 1; /* Ensure it's below fixed navbar or correctly layers */
+    position: relative; /* For content-section padding relative to navbar */
+    margin-left: var(--sidebar-width); /* Pushed by default sidebar width */
+    transition: margin-left 0.3s ease; /* Smooth transition for margin */
 }
 
 /* Navbar (Top Bar) - Desktop Layout */
@@ -118,40 +128,42 @@ body {
     padding: 20px 30px;
     box-shadow: var(--shadow);
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Distribute items */
     align-items: center;
     border-bottom: 1px solid var(--border-color);
     flex-shrink: 0;
 
-    /* Position navbar relative to .main-content on desktop */
-    position: absolute; /* Placed within main-content's flow */
+    position: fixed; /* Fixed to viewport */
     top: 0;
-    left: 0;
-    width: 100%; /* Spans the width of its parent (.main-content) */
-    z-index: 999; /* Higher z-index to stay on top of main content */
+    /* Left will be controlled by JS for dynamic width, initially it's sidebar-width */
+    left: var(--sidebar-width); /* Default left position */
+    width: calc(100% - var(--sidebar-width)); /* Adjust width based on sidebar */
+    z-index: 999; /* Higher z-index to stay on top */
     box-sizing: border-box; /* Include padding in total width */
+    transition: left 0.3s ease, width 0.3s ease; /* Smooth transition for positioning */
 }
 
 .navbar-left {
     display: flex;
     align-items: center;
+    order: 2; /* Page name in the middle */
+    flex-grow: 1; /* Allows it to take remaining space for centering */
+    justify-content: center; /* Center the page name */
 }
 
 .navbar-left h1 {
     margin: 0;
     font-size: 1.8em;
     color: var(--text-color);
+    font-weight: 700; /* Make it more magnificent */
 }
 
 .navbar-right {
     display: flex;
     align-items: center;
     gap: 15px;
-}
-
-.navbar-right span {
-    font-weight: 500;
-    color: var(--text-color);
+    order: 3; /* Logout to the right */
+    margin-left: auto; /* Push to the far right if flex-grow isn't enough */
 }
 
 .menu-toggle {
@@ -160,15 +172,32 @@ body {
     font-size: 1.5em;
     color: var(--text-color);
     cursor: pointer;
-    margin-right: 20px; /* Space from adjacent elements */
-    display: block; /* Always display for desktop collapsing behavior */
+    margin-right: 20px;
+    display: block;
+    order: 1; /* Menu button on the extreme left */
 }
 
-/* Content Sections - Pushed down by the absolute navbar within main-content */
+/* Adjustments for the logout button to be small and noticeable */
+.logout-btn { /* Assuming you have a class like this on your logout button */
+    padding: 8px 15px; /* Smaller padding */
+    font-size: 0.9em; /* Smaller font size */
+    background-color: transparent; /* No background by default */
+    color: var(--danger-color); /* Red text color */
+    border: 1px solid var(--danger-color); /* Subtle border */
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logout-btn:hover {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* Content Sections - Pushed down by the fixed navbar */
 .content-section {
     padding: 30px;
     flex-grow: 1; /* Allow content to push footer down */
-    /* Adjust padding-top to account for the navbar's height *within* main-content */
+    /* Adjust padding-top to account for the navbar's height */
     padding-top: 100px; /* Example: If navbar height is approx 60-70px, 100px gives good spacing */
 }
 
@@ -184,10 +213,7 @@ footer {
     flex-shrink: 0; /* Prevent footer from shrinking */
 }
 
-/* --- Common UI Components --- */
-/* (Keeping these concise as they don't seem to be the primary issues) */
-
-/* Buttons */
+/* --- Common UI Components (kept concise) --- */
 .btn {
     padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer;
     font-size: 1.1em; font-weight: 600; text-decoration: none;
@@ -208,13 +234,10 @@ footer {
 .btn-sm { padding: 6px 12px; font-size: 0.85em; }
 .btn i { margin-right: 5px; }
 
-/* Cards */
 .card {
     background-color: var(--card-bg); border-radius: 8px;
     box-shadow: var(--shadow); padding: 25px; margin-bottom: 25px;
 }
-
-/* Data Tables */
 .data-table {
     width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.95em;
 }
@@ -229,7 +252,6 @@ footer {
 .data-table .status-paid { color: var(--success-color); font-weight: bold; }
 .data-table .status-overdue { color: var(--danger-color); font-weight: bold; }
 
-/* Toolbar for lists */
 .toolbar {
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 25px; padding: 15px 20px; background-color: var(--card-bg);
@@ -242,7 +264,6 @@ footer {
     font-size: 0.9em; flex-grow: 1; min-width: 150px;
 }
 
-/* Dashboard Overview Cards */
 .card-grid {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 25px; margin-bottom: 25px;
@@ -257,7 +278,6 @@ footer {
 .card-content h3 { margin: 0; font-size: 1.1em; color: var(--secondary-color); }
 .card-content .metric { margin: 5px 0 0; font-size: 1.8em; font-weight: bold; color: var(--text-color); }
 
-/* Recent Activities */
 .recent-activities ul { list-style: none; padding: 0; margin: 0; }
 .recent-activities li {
     padding: 10px 0; border-bottom: 1px solid var(--light-bg); display: flex; align-items: center;
@@ -268,7 +288,6 @@ footer {
 .activity-icon.fa-dollar-sign { color: var(--success-color); }
 .activity-icon.fa-edit { color: var(--warning-color); }
 
-/* Quick Links */
 .quick-link-card {
     text-align: center; text-decoration: none; color: var(--text-color);
     border-bottom: 5px solid transparent; border-radius: 8px;
@@ -281,7 +300,6 @@ footer {
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
 
-/* Tab Navigation */
 .tab-navigation {
     display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--border-color);
     flex-wrap: wrap; gap: 5px;
@@ -317,111 +335,70 @@ footer {
     text-align: center;
     box-sizing: border-box; /* Include padding in width calculation */
 }
-
-.login-logo {
-    max-width: 120px;
-    margin-bottom: 20px;
-}
-
-.login-header h1 {
-    color: var(--primary-color);
-    margin-bottom: 30px;
-    font-size: 2em;
-}
-
-.form-group {
-    margin-bottom: 20px;
-    text-align: left;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: var(--text-color);
-}
-
+.login-logo { max-width: 120px; margin-bottom: 20px; }
+.login-header h1 { color: var(--primary-color); margin-bottom: 30px; font-size: 2em; }
+.form-group { margin-bottom: 20px; text-align: left; }
+.form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--text-color); }
 .form-group input[type="text"],
 .form-group input[type="password"] {
-    width: 100%; /* Full width within form-group */
-    padding: 12px 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 1em;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box; /* Include padding and border in element's total width/height */
+    width: 100%; padding: 12px 10px; border: 1px solid var(--border-color);
+    border-radius: 5px; font-size: 1em; transition: border-color 0.3s ease;
+    box-sizing: border-box;
 }
-
 .form-group input:focus {
-    border-color: var(--primary-color);
-    outline: none;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    border-color: var(--primary-color); outline: none; box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
-
 .form-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    font-size: 0.9em;
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 25px; font-size: 0.9em;
 }
-
-.form-options label {
-    margin: 0;
-    color: var(--text-color);
-}
-
-.form-options .forgot-password {
-    color: var(--primary-color);
-    text-decoration: none;
-}
-
-.form-options .forgot-password:hover {
-    text-decoration: underline;
-}
-
-.login-footer {
-    margin-top: 30px;
-    font-size: 0.8em;
-    color: var(--secondary-color);
-}
+.form-options label { margin: 0; color: var(--text-color); }
+.form-options .forgot-password { color: var(--primary-color); text-decoration: none; }
+.form-options .forgot-password:hover { text-decoration: underline; }
+.login-footer { margin-top: 30px; font-size: 0.8em; color: var(--secondary-color); }
 
 /* Close Sidebar Button (for mobile overlay) */
 .close-sidebar-btn {
-    background: none;
-    border: none;
-    color: var(--sidebar-text);
-    font-size: 1.8em;
-    cursor: pointer;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    display: none; /* Hidden by default, only show on mobile */
-    z-index: 1001; /* Ensure it's above other sidebar content */
+    background: none; border: none; color: var(--sidebar-text);
+    font-size: 1.8em; cursor: pointer; position: absolute;
+    top: 15px; right: 15px; display: none;
+    z-index: 1001;
 }
 
 /* --- Responsive Design --- */
 
 /* Desktop/Tablet: Sidebar Collapsed State */
-/* This class is applied via JavaScript on menu toggle for larger screens */
+/* This class is applied to .admin-wrapper via JavaScript on menu toggle for larger screens */
 .admin-wrapper.collapsed .sidebar {
-    width: 60px; /* Collapsed state (icon-only) */
+    width: var(--sidebar-collapsed-width); /* Collapsed state (icon-only) */
 }
 .admin-wrapper.collapsed .sidebar .sidebar-header h2,
 .admin-wrapper.collapsed .sidebar .main-nav li a span {
-    display: none; /* Hide text labels */
+    opacity: 0; /* Fade out text */
+    pointer-events: none; /* Prevent interaction with hidden text */
+    width: 0; /* Collapse width of text to prevent overlap */
+    overflow: hidden; /* Hide overflow */
+    transition: opacity 0.3s ease, width 0.3s ease;
 }
 .admin-wrapper.collapsed .sidebar .main-nav li a {
     justify-content: center; /* Center icons */
     padding: 15px 0;
 }
 .admin-wrapper.collapsed .sidebar .main-nav li a i {
-    margin-right: 0;
+    margin-right: 0; /* Remove margin when text is gone */
 }
-/* When sidebar collapses, main-content's internal navbar still sits correctly */
-.admin-wrapper.collapsed .main-content .navbar {
-    /* No need to change left/width here as it's absolute within main-content already */
+
+/* Adjust main content's margin-left when sidebar is collapsed */
+.admin-wrapper.collapsed .main-content {
+    margin-left: var(--sidebar-collapsed-width); /* Shift main content left */
 }
+
+/* Adjust navbar's position and width when sidebar is collapsed */
+.admin-wrapper.collapsed .navbar {
+    left: var(--sidebar-collapsed-width); /* Shift navbar left */
+    width: calc(100% - var(--sidebar-collapsed-width)); /* Expand navbar width */
+}
+
 
 /* Mobile Devices (e.g., tablets in portrait, phones) */
 @media (max-width: 768px) {
@@ -442,23 +419,32 @@ footer {
         top: 0;
         left: 0;
         width: 100%;
-        flex-direction: row; /* Keep row for icon and title */
-        justify-content: space-between; /* Space between toggle/title and right items */
+        flex-direction: row; /* Maintain row direction */
+        justify-content: space-between; /* Space out elements */
         align-items: center;
         padding: 15px 20px;
         box-sizing: border-box; /* Include padding in width */
     }
+    /* Reorder elements for mobile navbar: menu-toggle | page name | logout */
+    .menu-toggle {
+        order: 1; /* Menu button on the extreme left */
+        margin-right: 0; /* No explicit margin, flex spacing handles it */
+    }
     .navbar-left {
-        order: 2; /* Put title/logo in middle */
+        order: 2; /* Page name in the middle */
         flex-grow: 1; /* Allow it to take available space */
-        text-align: center; /* Center title */
+        text-align: center; /* Center the page name */
+        padding: 0 10px; /* Add some padding around the title */
     }
     .navbar-right {
-        order: 3; /* Put right items last */
+        order: 3; /* Logout to the right */
+        margin-left: 0; /* Remove auto margin */
     }
-    .menu-toggle {
-        order: 1; /* Put toggle first */
-        margin-right: 0; /* Remove internal margin, handled by flex space */
+
+    /* Logout button styling for mobile if needed, or rely on general styles */
+    .logout-btn {
+        padding: 6px 12px; /* Smaller button for mobile */
+        font-size: 0.8em;
     }
 
     /* Admin Wrapper behavior for mobile (sidebar overlay) */
@@ -486,6 +472,9 @@ footer {
     /* Ensure sidebar content is visible in mobile overlay */
     .sidebar .sidebar-header h2,
     .sidebar .main-nav li a span {
+        opacity: 1; /* Make text visible */
+        width: auto; /* Restore width */
+        overflow: visible; /* Restore overflow */
         display: block; /* Always show title and text labels for mobile overlay */
     }
     .sidebar .main-nav li a {
@@ -506,6 +495,7 @@ footer {
     /* Main content on mobile */
     .main-content {
         width: 100%;
+        margin-left: 0; /* No margin-left on mobile, it's an overlay */
         /* Important: Increased padding-top for fixed mobile navbar */
         padding-top: 90px; /* Adjust based on your mobile navbar's specific height */
     }
@@ -572,6 +562,6 @@ footer {
     }
     .tab-navigation {
         flex-wrap: wrap;
-    } 
+    }
 }
-    
+                      
