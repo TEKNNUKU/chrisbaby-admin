@@ -33,7 +33,7 @@ body {
     color: var(--text-color);
     background-color: var(--background-color);
     line-height: 1.6;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    overflow-x: hidden; /* Crucial for preventing horizontal scroll */
 }
 
 a {
@@ -54,6 +54,7 @@ ul {
 .admin-wrapper {
     display: flex;
     min-height: 100vh;
+    /* Remove relative positioning, not needed here and can interfere */
 }
 
 /* --- Sidebar --- */
@@ -64,15 +65,15 @@ ul {
     padding: var(--spacing-unit);
     display: flex;
     flex-direction: column;
-    position: fixed; /* Fixed position */
+    position: fixed; /* Keep fixed for desktop */
     top: 0;
     bottom: 0;
     left: 0;
     z-index: 1000;
-    transition: width 0.3s ease-in-out, transform 0.3s ease-in-out; /* Add transform for mobile */
+    transition: width 0.3s ease-in-out; /* Only width transition for desktop */
     overflow-y: auto; /* Enable scrolling for long menus */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
 /* Hide scrollbar for Chrome, Safari, Opera */
@@ -105,7 +106,7 @@ ul {
     font-size: 1.3rem;
     white-space: nowrap;
     overflow: hidden;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out, width 0.3s ease-in-out, margin-right 0.3s ease-in-out;
 }
 
 .sidebar.collapsed .sidebar-header h2 {
@@ -146,13 +147,13 @@ ul {
 .main-nav li a span {
     white-space: nowrap;
     overflow: hidden;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out, width 0.3s ease-in-out; /* Add width transition for span */
     flex-grow: 1; /* Allows span to take available space */
 }
 
 .sidebar.collapsed .main-nav li a span {
     opacity: 0;
-    width: 0;
+    width: 0; /* Collapse text width */
 }
 
 /* Mobile Close Button for Sidebar */
@@ -178,10 +179,13 @@ ul {
     display: flex;
     flex-direction: column; /* To stack header, content, and footer */
     min-height: 100vh; /* Ensure it takes full height */
+    width: calc(100% - var(--sidebar-width)); /* Explicitly set width for expanded state */
+    /* overflow-x: hidden; */ /* Handled by body, if needed locally, apply but test carefully */
 }
 
 .main-content.shifted {
     margin-left: var(--sidebar-collapsed-width); /* Margin for collapsed sidebar */
+    width: calc(100% - var(--sidebar-collapsed-width)); /* Explicitly set width for collapsed state */
 }
 
 /* --- Navbar (Header) --- */
@@ -195,6 +199,7 @@ ul {
     z-index: 999; /* Below sidebar, above content */
     width: 100%; /* Occupy full width of main-content */
     flex-shrink: 0; /* Prevent it from shrinking */
+    justify-content: space-between; /* Space out elements */
 }
 
 .navbar .menu-toggle {
@@ -203,14 +208,19 @@ ul {
     font-size: 1.5rem;
     color: var(--text-color);
     cursor: pointer;
-    margin-right: calc(var(--spacing-unit) * 1.5); /* Space between toggle and title */
-    display: block; /* Always show toggle on desktop */
+    margin-right: 0.5rem; /* Reduced margin */
+    /* Changed to block to always show on desktop, adjust if needed for mobile only */
+    display: block;
 }
 
 .navbar-left {
-    flex-grow: 1; /* Pushes navbar-right to the end */
     display: flex;
     align-items: center;
+    /* Removed flex-grow: 1 to reduce header length */
+    /* Added max-width to restrict its growth */
+    max-width: 60%; /* Adjust as needed */
+    overflow: hidden; /* Hide overflowing text */
+    white-space: nowrap; /* Keep text on one line */
 }
 
 .navbar-left h1 {
@@ -218,6 +228,8 @@ ul {
     margin: 0;
     color: var(--primary-color);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for overflowing text */
 }
 
 .navbar-right {
@@ -225,6 +237,7 @@ ul {
     align-items: center;
     gap: var(--spacing-unit);
     white-space: nowrap;
+    margin-left: auto; /* Push to the right */
 }
 
 .navbar-right span {
@@ -235,9 +248,10 @@ ul {
 /* --- Content Section --- */
 .content-section {
     flex-grow: 1; /* Allows content to take available space */
-    padding: calc(var(--spacing-unit) * 1.5); /* Adjusted padding-top */
-    padding-top: calc(var(--spacing-unit) * 1.5); /* Reduced whitespace at top */
+    padding: var(--spacing-unit); /* More uniform padding */
+    padding-top: calc(var(--spacing-unit) * 1.5); /* Keep slightly more padding at top */
     background-color: var(--background-color);
+    overflow-x: hidden; /* Crucial to prevent content within from causing scroll */
 }
 
 /* --- Cards & Grid --- */
@@ -459,11 +473,18 @@ ul {
 
 
 /* --- Data Tables --- */
+.table-responsive { /* New wrapper for scrollable tables */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+    margin-top: var(--spacing-unit); /* Apply margin here */
+}
+
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: var(--spacing-unit);
+    /* margin-top: var(--spacing-unit); Removed from here, moved to .table-responsive */
     font-size: 0.9rem;
+    min-width: 600px; /* Ensure table has a minimum width to enable scrolling */
 }
 
 .data-table th,
@@ -471,13 +492,14 @@ ul {
     padding: 0.8rem;
     text-align: left;
     border-bottom: 1px solid var(--border-color);
+    white-space: nowrap; /* Prevent text wrapping within cells */
 }
 
 .data-table th {
     background-color: var(--primary-color);
     color: var(--light-text-color);
     font-weight: 600;
-    white-space: nowrap;
+    /* white-space: nowrap; Kept here as well */
 }
 
 .data-table tbody tr:nth-child(even) {
@@ -715,6 +737,7 @@ footer {
         position: fixed; /* Keep it fixed */
         z-index: 1001; /* Higher z-index to overlay content */
         box-shadow: 3px 0 6px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out; /* Only transform transition for mobile */
     }
 
     .sidebar.open {
@@ -729,17 +752,19 @@ footer {
         display: block; /* Show close button on mobile */
     }
 
-    .sidebar.collapsed { /* On mobile, 'collapsed' state means it's closed */
-        width: var(--sidebar-width); /* No collapsing, just open/close */
+    /* On mobile, 'collapsed' state means it's closed, so these are not needed */
+    .sidebar.collapsed {
+        width: var(--sidebar-width); /* Maintain full width for mobile overlay */
     }
 
     /* Main Content adjustments for mobile */
     .main-content {
         margin-left: 0; /* No margin-left on mobile, sidebar is an overlay */
         width: 100%; /* Take full width */
+        overflow-x: hidden; /* Ensure main content itself doesn't cause overflow */
     }
 
-    .main-content.shifted { /* Shifted class is not used on mobile */
+    .main-content.shifted { /* Shifted class is not used on mobile layout */
         margin-left: 0;
     }
 
@@ -750,6 +775,9 @@ footer {
 
     .navbar-left h1 {
         font-size: 1.5rem; /* Smaller title on mobile */
+        max-width: 180px; /* Limit header title width on mobile */
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .navbar-right span {
@@ -757,7 +785,8 @@ footer {
     }
 
     .content-section {
-        padding: calc(var(--spacing-unit) * 1); /* Smaller padding on mobile */
+        padding: var(--spacing-unit); /* Smaller padding on mobile */
+        padding-top: var(--spacing-unit); /* Evenly reduce top padding on mobile */
     }
 
     .toolbar {
@@ -768,73 +797,4 @@ footer {
     .search-filter {
         width: 100%;
         flex-direction: column;
-        gap: var(--spacing-unit);
-    }
-
-    .search-input, .filter-select {
-        width: 100%;
-        min-width: unset; /* Remove min-width constraint */
-    }
-
-    .toolbar .btn-primary {
-        width: 100%;
-    }
-
-    .data-table {
-        /* Make table scrollable horizontally on smaller screens */
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
-    }
-
-    .data-table thead, .data-table tbody, .data-table th, .data-table td, .data-table tr {
-        display: block; /* Ensure full table can scroll */
-    }
-
-    /* For smaller screens, consider stacking table cells */
-    .data-table td {
-        text-align: right;
-        padding-left: 50%; /* Space for pseudo-element label */
-        position: relative;
-    }
-
-    .data-table td::before {
-        content: attr(data-label); /* Use data-label for mobile headers */
-        position: absolute;
-        left: 6px;
-        width: 45%;
-        padding-right: 10px;
-        white-space: nowrap;
-        text-align: left;
-        font-weight: bold;
-    }
-
-    /* Adjust specific tables if needed for better mobile experience */
-    .data-table th {
-        display: none; /* Hide table headers on smaller screens */
-    }
-
-    .data-table td:first-child {
-        font-weight: bold; /* Make first column prominent */
-    }
-
-    .data-table tbody tr {
-        margin-bottom: 1rem;
-        border: 1px solid var(--border-color);
-        display: block;
-        box-shadow: var(--shadow);
-        border-radius: 8px;
-        padding: 0.5rem;
-    }
-
-    .data-table td:last-child { /* Actions column */
-        text-align: center;
-        margin-top: 10px;
-        border-bottom: none;
-    }
-}
-
-/* Tablet / Medium Screens */
-@media (min-width: 769px) and (max-width: 1024px) {
-    .sidebar {
-        width: var(--sidebar-collapsed-width); /* Def
+        gap: var(--spacing-
