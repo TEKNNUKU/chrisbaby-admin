@@ -13,34 +13,39 @@
             <div class="sidebar-header">
                 <img src="https://pink-quiet-wolf-922.mypinata.cloud/ipfs/bafybeigv5p43ezk42i75dxliwo5biyct4yzdgvuihvp5udkipidvd6b5je" alt="Chris-Baby SAS Ltd. Logo" class="sidebar-logo">
                 <h2>Chris-Baby Admin</h2>
-                <button class="close-sidebar-btn"><i class="fas fa-times"></i></button> </div>
+                <button class="close-sidebar-btn"><i class="fas fa-times"></i></button>
+            </div>
             <nav class="main-nav">
                 <ul>
-                    <li class="active"><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-                    <li><a href="employees.html"><i class="fas fa-users"></i> Employees Management</a></li>
-                    <li><a href="#"><i class="fas fa-handshake"></i> Clients Management</a></li>
-                    <li><a href="#"><i class="fas fa-truck"></i> Vendors Management</a></li>
-                    <li><a href="payments-invoices.html"><i class="fas fa-file-invoice"></i> Payments & Invoices</a></li>
-                    <li><a href="#"><i class="fas fa-chart-line"></i> Pension Contributions</a></li>
-                    <li><a href="#"><i class="fas fa-calculator"></i> Tax Management</a></li>
-                    <li><a href="#"><i class="fas fa-heartbeat"></i> Medical & Insurance</a></li>
-                    <li><a href="#"><i class="fas fa-cogs"></i> Settings</a></li>
+                    <li class="active"><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+                    <li><a href="employees.html"><i class="fas fa-users"></i> <span>Employees Management</span></a></li>
+                    <li><a href="#"><i class="fas fa-handshake"></i> <span>Clients Management</span></a></li>
+                    <li><a href="#"><i class="fas fa-truck"></i> <span>Vendors Management</span></a></li>
+                    <li><a href="payments-invoices.html"><i class="fas fa-file-invoice"></i> <span>Payments & Invoices</span></a></li>
+                    <li><a href="#"><i class="fas fa-chart-line"></i> <span>Pension Contributions</span></a></li>
+                    <li><a href="#"><i class="fas fa-calculator"></i> <span>Tax Management</span></a></li>
+                    <li><a href="#"><i class="fas fa-heartbeat"></i> <span>Medical & Insurance</span></a></li>
+                    <li><a href="#"><i class="fas fa-cogs"></i> <span>Settings</span></a></li>
                 </ul>
             </nav>
         </aside>
+
         <main class="main-content">
             <header class="navbar">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+
                 <div class="navbar-left">
-                    <button class="menu-toggle"><i class="fas fa-bars"></i></button>
                     <h1>Dashboard</h1>
                 </div>
+
                 <div class="navbar-right">
                     <span>Welcome, Admin Name</span>
-                    <a href="index.html" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="index.html" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
                 </div>
             </header>
 
-            <section class="dashboard-overview content-section"> <div class="card-grid">
+            <section class="content-section">
+                <div class="card-grid">
                     <div class="card overview-card">
                         <div class="card-icon"><i class="fas fa-users"></i></div>
                         <div class="card-content">
@@ -70,9 +75,8 @@
                         </div>
                     </div>
                 </div>
-            </section>
 
-            <section class="recent-activities content-section"> <h2>Recent Activities</h2>
+                <h2>Recent Activities</h2>
                 <div class="card">
                     <ul>
                         <li><i class="fas fa-check-circle activity-icon"></i> New employee "John Doe" added. (2 mins ago)</li>
@@ -81,9 +85,8 @@
                         <li><i class="fas fa-edit activity-icon"></i> Employee "Jane Smith" details updated. (Yesterday)</li>
                     </ul>
                 </div>
-            </section>
 
-            <section class="quick-links content-section"> <h2>Quick Links</h2>
+                <h2>Quick Links</h2>
                 <div class="card-grid">
                     <a href="employees.html" class="card quick-link-card">
                         <i class="fas fa-user-plus"></i> Add New Employee
@@ -95,14 +98,12 @@
                         <i class="fas fa-book"></i> View Reports
                     </a>
                 </div>
-            </section>
-
-            <footer>
+            </section> <footer>
                 <p>&copy; 2025 Chris-Baby SAS Ltd. All rights reserved.</p>
             </footer>
         </main>
     </div>
+
     <script src="js/main.js"></script>
 </body>
-    </html>
-                                                                           
+</html>
