@@ -5,25 +5,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const menuToggle = document.querySelector('.menu-toggle');
     const closeSidebarBtn = document.querySelector('.close-sidebar-btn');
     const mainContent = document.querySelector('.main-content');
-    const sidebarWidth = '250px'; // Should match --sidebar-width in CSS
-    const sidebarCollapsedWidth = '80px'; // Should match --sidebar-collapsed-width in CSS
 
-    // Function to set sidebar state based on current width (for initial load)
+    // Function to set sidebar state based on current window width
     function setInitialSidebarState() {
         if (window.innerWidth <= 768) {
-            // Mobile: Sidebar should be closed by default and act as overlay
-            sidebar.classList.remove('collapsed');
-            sidebar.classList.remove('open'); // Ensure it's closed
+            // Mobile: Sidebar should be closed and act as an overlay
+            sidebar.classList.remove('collapsed'); // Ensure desktop collapse class is off
+            sidebar.classList.remove('open'); // Ensure it's closed by default
             mainContent.classList.remove('shifted'); // No margin shift on mobile
         } else {
-            // Desktop: Start with expanded sidebar by default (or remember preference)
+            // Desktop/Tablet: Default to expanded sidebar, or collapsed if preferred
+            // Assuming default expanded for now, let the toggle handle collapse
             sidebar.classList.remove('collapsed');
-            mainContent.classList.remove('shifted'); // Ensure full margin
+            mainContent.classList.remove('shifted');
             sidebar.classList.remove('open'); // Remove mobile-specific class
         }
     }
 
-    // Initial state setup
+    // Call on initial load
     setInitialSidebarState();
 
     // Event listener for window resize
@@ -37,14 +36,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Mobile: Toggle 'open' class for overlay effect
                 sidebar.classList.toggle('open');
             } else {
-                // Desktop: Toggle 'collapsed' class and shift main content
+                // Desktop/Tablet: Toggle 'collapsed' class and shift main content
                 sidebar.classList.toggle('collapsed');
                 mainContent.classList.toggle('shifted');
             }
         });
     }
 
-    // Close sidebar button (mobile only)
+    // Close sidebar button (mobile only 'X' button)
     if (closeSidebarBtn) {
         closeSidebarBtn.addEventListener('click', function() {
             sidebar.classList.remove('open'); // Close the mobile sidebar
@@ -69,6 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle initial active tab on page load
+    // This ensures one tab is active even if none is explicitly set in HTML
     if (tabButtons.length > 0) {
         // Find the initially active tab (if set in HTML) or default to the first
         const initialActiveTab = document.querySelector('.tab-btn.active') || tabButtons[0];
