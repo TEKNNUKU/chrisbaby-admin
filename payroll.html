@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll - Chris-Baby SAS Ltd.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://pink-quiet-wolf-922.mypinata.cloud/ipfs/bafybeigv5p43ezk42i75dxliwo5biyct4yzdgvuihvp5udkipidvd6b5je" alt="Chris-Baby SAS Ltd. Logo" class="sidebar-logo">
+                <h2>Chris-Baby Admin</h2>
+                <button class="close-sidebar-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+                    <li><a href="employees.html"><i class="fas fa-users"></i> <span>Employees Management</span></a></li>
+                    <li><a href="clients.html"><i class="fas fa-handshake"></i> <span>Clients Management</span></a></li>
+                    <li><a href="vendors.html"><i class="fas fa-truck"></i> <span>Vendors Management</span></a></li>
+                    <li><a href="payments-invoices.html"><i class="fas fa-file-invoice"></i> <span>Payments & Invoices</span></a></li>
+                    <li class="active"><a href="payroll.html"><i class="fas fa-money-check-alt"></i> <span>Payroll</span></a></li>
+                    <li><a href="pensions.html"><i class="fas fa-chart-line"></i> <span>Pension Contributions</span></a></li>
+                    <li><a href="taxes.html"><i class="fas fa-calculator"></i> <span>Tax Management</span></a></li>
+                    <li><a href="benefits.html"><i class="fas fa-heartbeat"></i> <span>Medical & Insurance</span></a></li>
+                    <li><a href="compliance.html"><i class="fas fa-clipboard-check"></i> <span>Compliance</span></a></li>
+                    <li><a href="reports.html"><i class="fas fa-chart-bar"></i> <span>Reports & Analytics</span></a></li>
+                    <li><a href="settings.html"><i class="fas fa-cogs"></i> <span>Settings</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="navbar">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="navbar-left">
+                    <h1>Payroll</h1>
+                </div>
+                <div class="navbar-right">
+                    <span>Welcome, Admin Name</span>
+                    <a href="index.html" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </header>
+
+            <section class="content-section">
+                <div class="card-grid">
+                    <div class="card overview-card">
+                        <i class="fas fa-money-bill-wave card-icon"></i>
+                        <div class="card-content">
+                            <h3>Total Salaries Paid (M)</h3>
+                            <p class="metric">₦2,500,000.00</p>
+                        </div>
+                    </div>
+                    <div class="card overview-card">
+                        <i class="fas fa-calendar-alt card-icon"></i>
+                        <div class="card-content">
+                            <h3>Last Payroll Run</h3>
+                            <p class="metric">May 31, 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="search-filter">
+                        <input type="text" placeholder="Search payroll by employee..." class="search-input">
+                        <input type="month" class="filter-select">
+                    </div>
+                    <button class="btn btn-primary"><i class="fas fa-plus-circle"></i> Run New Payroll</button>
+                    <button class="btn btn-secondary"><i class="fas fa-file-download"></i> Generate Payslips</button>
+                </div>
+
+                <div class="card">
+                    <h2>Recent Payroll Runs</h2>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Payroll Period</th>
+                                    <th>Total Gross Pay</th>
+                                    <th>Total Deductions</th>
+                                    <th>Net Pay</th>
+                                    <th>Run Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>May 2025</td>
+                                    <td>₦2,800,000.00</td>
+                                    <td>₦300,000.00</td>
+                                    <td>₦2,500,000.00</td>
+                                    <td>May 31, 2025</td>
+                                    <td class="status-paid">Completed</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="btn btn-sm btn-secondary"><i class="fas fa-download"></i> Download Payslips</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>April 2025</td>
+                                    <td>₦2,750,000.00</td>
+                                    <td>₦290,000.00</td>
+                                    <td>₦2,460,000.00</td>
+                                    <td>April 30, 2025</td>
+                                    <td class="status-paid">Completed</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="btn btn-sm btn-secondary"><i class="fas fa-download"></i> Download Payslips</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>March 2025</td>
+                                    <td>₦2,700,000.00</td>
+                                    <td>₦280,000.00</td>
+                                    <td>₦2,420,000.00</td>
+                                    <td>March 31, 2025</td>
+                                    <td class="status-paid">Completed</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="btn btn-sm btn-secondary"><i class="fas fa-download"></i> Download Payslips</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2>Employee Payroll Details</h2>
+                    <p>Use the search and filter above to find specific employee payroll records.</p>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Employee Name</th>
+                                    <th>Gross Pay</th>
+                                    <th>Deductions</th>
+                                    <th>Net Pay</th>
+                                    <th>Pay Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CHIGBU LIGHT UDOCHUKWU</td>
+                                    <td>₦120,000.00</td>
+                                    <td>₦15,000.00</td>
+                                    <td>₦105,000.00</td>
+                                    <td class="status-paid">Paid</td>
+                                    <td><button class="btn btn-sm btn-info"><i class="fas fa-receipt"></i> View Payslip</button></td>
+                                </tr>
+                                <tr>
+                                    <td>OGUEGBU OKWUCHUKWU PATRICI</td>
+                                    <td>₦120,000.00</td>
+                                    <td>₦15,000.00</td>
+                                    <td>₦105,000.00</td>
+                                    <td class="status-paid">Paid</td>
+                                    <td><button class="btn btn-sm btn-info"><i class="fas fa-receipt"></i> View Payslip</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <footer>
+                <p>&copy; 2025 Chris-Baby SAS Ltd. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+                                                                </html>
+                                                                                                                        
