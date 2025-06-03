@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports & Analytics - Chris-Baby SAS Ltd.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://pink-quiet-wolf-922.mypinata.cloud/ipfs/bafybeigv5p43ezk42i75dxliwo5biyct4yzdgvuihvp5udkipidvd6b5je" alt="Chris-Baby SAS Ltd. Logo" class="sidebar-logo">
+                <h2>Chris-Baby Admin</h2>
+                <button class="close-sidebar-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></a></li>
+                    <li><a href="employees.html"><i class="fas fa-users"></i> <span>Employees Management</span></a></li>
+                    <li><a href="clients.html"><i class="fas fa-handshake"></i> <span>Clients Management</span></a></li>
+                    <li><a href="vendors.html"><i class="fas fa-truck"></i> <span>Vendors Management</span></a></li>
+                    <li><a href="payments-invoices.html"><i class="fas fa-file-invoice"></i> <span>Payments & Invoices</span></a></li>
+                    <li><a href="payroll.html"><i class="fas fa-money-check-alt"></i> <span>Payroll</span></a></li>
+                    <li><a href="pensions.html"><i class="fas fa-chart-line"></i> <span>Pension Contributions</span></a></li>
+                    <li><a href="taxes.html"><i class="fas fa-calculator"></i> <span>Tax Management</span></a></li>
+                    <li><a href="benefits.html"><i class="fas fa-heartbeat"></i> <span>Medical & Insurance</span></a></li>
+                    <li><a href="compliance.html"><i class="fas fa-clipboard-check"></i> <span>Compliance</span></a></li>
+                    <li class="active"><a href="reports.html"><i class="fas fa-chart-bar"></i> <span>Reports & Analytics</span></a></li>
+                    <li><a href="settings.html"><i class="fas fa-cogs"></i> <span>Settings</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="navbar">
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="navbar-left">
+                    <h1>Reports & Analytics</h1>
+                </div>
+                <div class="navbar-right">
+                    <span>Welcome, Admin Name</span>
+                    <a href="index.html" class="btn logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </header>
+
+            <section class="content-section">
+                <div class="card-grid">
+                    <div class="card overview-card">
+                        <i class="fas fa-chart-pie card-icon"></i>
+                        <div class="card-content">
+                            <h3>Revenue Overview</h3>
+                            <p class="metric">₦4,015,361.00 (YTD)</p>
+                        </div>
+                    </div>
+                    <div class="card overview-card">
+                        <i class="fas fa-chart-bar card-icon"></i>
+                        <div class="card-content">
+                            <h3>Expense Trends</h3>
+                            <p class="metric">View Charts</p>
+                        </div>
+                    </div>
+                    <div class="card overview-card">
+                        <i class="fas fa-users card-icon"></i>
+                        <div class="card-content">
+                            <h3>Employee Demographics</h3>
+                            <p class="metric">View Details</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>Available Reports</h2>
+                <div class="card">
+                    <ul class="report-list">
+                        <li>
+                            <div class="report-item">
+                                <i class="fas fa-file-pdf report-icon"></i>
+                                <h3>Monthly Financial Summary</h3>
+                                <p>Comprehensive breakdown of income and expenses for the month.</p>
+                            </div>
+                            <div class="report-actions">
+                                <select class="filter-select report-month-select">
+                                    <option value="2025-05">May 2025</option>
+                                    <option value="2025-04">April 2025</option>
+                                    <option value="2025-03">March 2025</option>
+                                </select>
+                                <button class="btn btn-primary"><i class="fas fa-download"></i> Generate</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="report-item">
+                                <i class="fas fa-file-excel report-icon"></i>
+                                <h3>Employee Payroll Report</h3>
+                                <p>Detailed payroll information for all employees by period.</p>
+                            </div>
+                            <div class="report-actions">
+                                <select class="filter-select report-month-select">
+                                    <option value="2025-05">May 2025</option>
+                                    <option value="2025-04">April 2025</option>
+                                    <option value="2025-03">March 2025</option>
+                                </select>
+                                <button class="btn btn-primary"><i class="fas fa-download"></i> Generate CSV</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="report-item">
+                                <i class="fas fa-file-alt report-icon"></i>
+                                <h3>Pension Contributions Report</h3>
+                                <p>Summary of pension contributions made for all employees.</p>
+                            </div>
+                            <div class="report-actions">
+                                <select class="filter-select report-year-select">
+                                    <option value="2025">2025</option>
+                                    <option value="2024">2024</option>
+                                </select>
+                                <button class="btn btn-primary"><i class="fas fa-download"></i> Generate PDF</button>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="report-item">
+                                <i class="fas fa-file-contract report-icon"></i>
+                                <h3>Client Service Agreements</h3>
+                                <p>Report on active client contracts and their terms.</p>
+                            </div>
+                            <div class="report-actions">
+                                <button class="btn btn-primary"><i class="fas fa-download"></i> Export All</button>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <footer>
+                <p>&copy; 2025 Chris-Baby SAS Ltd. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>
