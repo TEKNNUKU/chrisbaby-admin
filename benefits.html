@@ -22,9 +22,12 @@
                     <li><a href="clients.html"><i class="fas fa-handshake"></i> <span>Clients Management</span></a></li>
                     <li><a href="vendors.html"><i class="fas fa-truck"></i> <span>Vendors Management</span></a></li>
                     <li><a href="payments-invoices.html"><i class="fas fa-file-invoice"></i> <span>Payments & Invoices</span></a></li>
+                    <li><a href="payroll.html"><i class="fas fa-money-check-alt"></i> <span>Payroll</span></a></li>
                     <li><a href="pensions.html"><i class="fas fa-chart-line"></i> <span>Pension Contributions</span></a></li>
                     <li><a href="taxes.html"><i class="fas fa-calculator"></i> <span>Tax Management</span></a></li>
                     <li class="active"><a href="benefits.html"><i class="fas fa-heartbeat"></i> <span>Medical & Insurance</span></a></li>
+                    <li><a href="compliance.html"><i class="fas fa-clipboard-check"></i> <span>Compliance</span></a></li>
+                    <li><a href="reports.html"><i class="fas fa-chart-bar"></i> <span>Reports & Analytics</span></a></li>
                     <li><a href="settings.html"><i class="fas fa-cogs"></i> <span>Settings</span></a></li>
                 </ul>
             </nav>
@@ -43,70 +46,75 @@
             </header>
 
             <section class="content-section">
+                <div class="card-grid">
+                    <div class="card overview-card">
+                        <i class="fas fa-hospital card-icon"></i>
+                        <div class="card-content">
+                            <h3>Active Health Plans</h3>
+                            <p class="metric">2</p>
+                        </div>
+                    </div>
+                    <div class="card overview-card">
+                        <i class="fas fa-shield-alt card-icon"></i>
+                        <div class="card-content">
+                            <h3>Insured Employees</h3>
+                            <p class="metric">18</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="toolbar">
                     <div class="search-filter">
-                        <input type="text" placeholder="Search by employee..." class="search-input">
+                        <input type="text" placeholder="Search policies or employees..." class="search-input">
                         <select class="filter-select">
-                            <option value="">All Benefit Types</option>
+                            <option value="">All Types</option>
                             <option value="HMO">HMO</option>
-                            <option value="Insurance">Insurance</option>
+                            <option value="Life Insurance">Life Insurance</option>
                         </select>
                     </div>
-                    <button class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add/Update Benefit</button>
+                    <button class="btn btn-primary"><i class="fas fa-plus-circle"></i> Add New Policy/Benefit</button>
                 </div>
 
                 <div class="card">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Employee Name</th>
-                                <th>Benefit Type</th>
-                                <th>Provider</th>
-                                <th>Policy No.</th>
-                                <th>Status</th>
-                                <th>Renewal Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>CHIGBU LIGHT UDOCHUKWU</td>
-                                <td>HMO</td>
-                                <td>Reliance HMO</td>
-                                <td>R-123456</td>
-                                <td class="status-active">Active</td>
-                                <td>Dec 31, 2025</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
-                                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>OGUEGBU OKWUCHUKWU PATRICI</td>
-                                <td>Insurance</td>
-                                <td>Leadway Assurance</td>
-                                <td>LIA-98765</td>
-                                <td class="status-active">Active</td>
-                                <td>Nov 30, 2025</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
-                                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>CHINEDU CURTIS CHIBUISI</td>
-                                <td>HMO</td>
-                                <td>Hygeia HMO</td>
-                                <td>H-54321</td>
-                                <td class="status-active">Active</td>
-                                <td>Jan 31, 2026</td>
-                                <td>
-                                    <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View</button>
-                                    <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
-                                </td>
-                            </tr>
+                    <h2>Current Medical & Insurance Policies</h2>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Policy Name</th>
+                                    <th>Provider</th>
+                                    <th>Coverage Type</th>
+                                    <th>Employees Covered</th>
+                                    <th>Renewal Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Staff HMO Plan</td>
+                                    <td>MediCare HMO</td>
+                                    <td>Health Insurance</td>
+                                    <td>15</td>
+                                    <td>Dec 31, 2025</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Group Life Assurance</td>
+                                    <td>SecureLife Insurance</td>
+                                    <td>Life Insurance</td>
+                                    <td>18</td>
+                                    <td>Jan 31, 2026</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info"><i class="fas fa-eye"></i> View Details</button>
+                                        <button class="btn btn-sm btn-warning"><i class="fas fa-edit"></i> Edit</button>
+                                    </td>
+                                </tr>
                             </tbody>
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </section>
 
@@ -117,4 +125,5 @@
     </div>
     <script src="js/main.js"></script>
 </body>
-</html>
+        </html>
+        
